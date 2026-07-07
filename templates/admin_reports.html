@@ -1,0 +1,212 @@
+{% extends 'base_admin.html' %}
+{% block content %}
+
+<h1> Occupancy and Payment Reports</h1>
+
+<!-- Report Summary -->
+<div class="report-summary">
+
+    <div class="report-card">
+        <h4>Total Beds</h4>
+        <div class="report-value">{{ total_beds }}</div>
+    </div>
+
+    <div class="report-card">
+        <h4>Occupied Beds</h4>
+        <div class="report-value">{{ occupied_beds }}</div>
+    </div>
+
+    <div class="report-card">
+        <h4>Available Beds</h4>
+        <div class="report-value">{{ available_beds }}</div>
+    </div>
+
+    <div class="report-card">
+        <h4>Occupancy Rate</h4>
+        <div class="report-value">{{ occupancy_rate }}%</div>
+    </div>
+
+</div>
+
+<!-- Charts -->
+<div class="chart-row">
+    <div class="chart-card">
+        <h3>Monthly Payment Collection</h3>
+        <div class="chart-container">
+            <canvas id="paymentChart"></canvas>
+        </div>
+    </div>
+    <div class="chart-card">
+        <h3>Bed Occupancy</h3>
+        <div class="chart-container">
+            <canvas id="occupancyChart"></canvas>
+        </div>
+    </div>
+    <div class="chart-card">
+    <h3>Overdue Payments & Fines</h3>
+    <div class="chart-container">
+        <canvas id="overdueChart"></canvas>
+    </div>
+</div>
+</div>
+
+<!-- Export Reports -->
+<div class="export-section">
+    <h3><i class="fas fa-download"></i> Export Reports</h3>
+    <div class="export-buttons">
+
+        <div class="export-group">
+    <p>Occupancy Reports</p>
+    <a href="{{ url_for('download_report', type='occupancy') }}" class="export-btn">
+        <i class="fas fa-file-pdf"></i> Bed Occupancy Report
+    </a>
+</div>
+
+        <div class="export-group">
+            <p>Payment Reports</p>
+            <a href="{{ url_for('download_payment_pdf') }}" class="export-btn">
+    <i class="fas fa-file-pdf"></i> Payment Report
+</a>
+        </div>
+
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+// =====================
+// Payment Chart (Bar)
+// =====================
+const paymentChart = new Chart(
+    document.getElementById('paymentChart'),
+    {
+        type: 'bar',
+        data: {
+            labels: {{ months|tojson }},
+            datasets: [{
+                label: 'Payments (RM)',
+                data: {{ payment_amounts|tojson }},
+                backgroundColor: 'rgba(255, 182, 193, 0.8)', // Light Pink
+                borderColor: 'rgba(255, 105, 180, 1)',       // Hot Pink
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            aspectRatio: 2,
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top',
+                    labels: {
+                        font: {
+                            size: 11
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        font: {
+                            size: 10
+                        }
+                    }
+                },
+                x: {
+                    ticks: {
+                        font: {
+                            size: 10
+                        }
+                    }
+                }
+            }
+        }
+    }
+);
+
+const overdueChart = new Chart(
+    document.getElementById('overdueChart'),
+    {
+        type: 'bar',
+        data: {
+            labels: ['Paid', 'Outstanding', 'Fines'],
+            datasets: [{
+                label: 'Amount (RM)',
+                data: [{{ total_paid }}, {{ outstanding }}, {{ total_fines }}],
+                backgroundColor: [
+                    'rgba(135, 206, 235, 0.9)',
+                    'rgba(255, 163, 163, 1)',
+                    'rgba(255, 99, 71, 0.8)'
+                ],
+                borderWidth: 0
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            aspectRatio: 2,
+            plugins: {
+                legend: { display: false }
+            },
+            scales: {
+                y: { beginAtZero: true, ticks: { font: { size: 10 } } },
+                x: { ticks: { font: { size: 10 } } }
+            }
+        }
+    }
+);
+
+
+// Bed Occupancy Chart (Pie)
+
+const occupancyChart = new Chart(
+    document.getElementById('occupancyChart'),
+    {
+        type: 'pie',
+        data: {
+            labels: ['Occupied Beds', 'Available Beds'],
+            datasets: [{
+                data: [{{ occupied_beds }}, {{ available_beds }}],
+                backgroundColor: [
+                    'rgba(135, 206, 235, 0.9)', // Light Blue
+                    'rgba(255, 163, 163, 1)'    // Light Pink
+                ],
+                borderWidth: 0
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            aspectRatio: 1.8,
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'bottom',
+                    labels: {
+                        font: {
+                            size: 12
+                        },
+                        padding: 15
+                    }
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            const total = {{ total_beds }};
+                            const value = context.raw;
+                            const percentage = ((value / total) * 100).toFixed(1);
+
+                            return `${context.label}: ${value} beds (${percentage}%)`;
+                        }
+                    }
+                }
+            }
+        }
+    }
+);
+</script>
+{% endblock %}

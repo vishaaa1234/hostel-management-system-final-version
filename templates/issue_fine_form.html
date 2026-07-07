@@ -1,0 +1,104 @@
+{% extends 'base_warden.html' %}
+{% block content %}
+
+    <title>Issue Fine</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/issue_fine_form.css') }}">
+
+<body>
+
+<div class="container py-4">
+
+    <div class="page-header mb-4">
+        <h4>Issue Fine</h4>
+        <p>Select a student and fill in the fine details.</p>
+    </div>
+
+    <div class="form-card">
+
+        <h6 class="mb-3">Fine Details</h6>
+
+        <form method="POST" action="{{ url_for('issue_fine_form') }}">
+
+            <!-- Student -->
+            <div class="mb-3">
+                <label class="form-label-sm">Student</label>
+                <select name="student_id" class="form-select" required onchange="fillRoom(this)">
+                    <option value="">Select student</option>
+                    {% for s in students %}
+                    <option value="{{ s['student_id'] }}"
+                            data-room="{{ s['room_number'] if s['room_number'] else '' }}"
+                            {% if preselect_student_id and s['student_id'] == preselect_student_id %}selected{% endif %}>
+                      {{ s['name'] }}
+                      {% if s['room_number'] %} — Room {{ s['room_number'] }}{% endif %}
+                    </option>
+                    {% endfor %}
+
+                </select>
+            </div>
+
+            <!-- Room Number (auto-filled, editable) -->
+            <div class="mb-3">
+                <label class="form-label-sm">Room Number</label>
+                <input type="text" name="room_number" id="room_number"
+                       class="form-control"
+                       placeholder="Auto-filled from student booking">
+            </div>
+
+            <!-- Amount -->
+            <div class="mb-3">
+                <label class="form-label-sm">Amount (RM)</label>
+                <input type="number" name="amount" class="form-control"
+                       step="0.01" min="0.01"
+                       placeholder="e.g. 50.00" required>
+            </div>
+
+            <!-- Fine Type -->
+             <div class="mb-3">
+                  <label class="form-label-sm">Fine Type</label>
+                  <select name="fine_type" class="form-select" required>
+                      <option value="">Select fine type</option>
+                      <option value="Noise">Noise Complaint</option>
+                      <option value="Damage">Property Damage</option>
+                      <option value="Curfew">Curfew Violation</option>
+                      <option value="Cleanliness">Cleanliness</option>
+                      <option value="Other">Other</option>
+    </select>
+               </div>
+
+            <!-- Reason -->
+            <div class="mb-3">
+                <label class="form-label-sm">Reason</label>
+                <textarea name="reason" class="form-control"
+                          rows="3"
+                          placeholder="Describe the reason for this fine..."
+                          required></textarea>
+            </div>
+
+            <div class="form-actions mt-4 d-flex gap-2">
+                <button type="submit" class="btn-save">Issue Fine</button>
+                <a href="{{ url_for('payment_fine') }}" class="btn-cancel">Cancel</a>
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+<script>
+function fillRoom(select) {
+    const option = select.options[select.selectedIndex];
+    document.getElementById('room_number').value = option.dataset.room || '';
+}
+
+// Run on load too, in case a student was preselected via ?student_id=
+document.addEventListener('DOMContentLoaded', function () {
+    const select = document.querySelector('select[name="student_id"]');
+    if (select && select.value) {
+        fillRoom(select);
+    }
+});
+</script>
+
+{% endblock %}

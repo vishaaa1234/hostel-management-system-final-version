@@ -1,0 +1,231 @@
+{% extends 'base_student.html' %}
+{% block content %}
+
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/make_payment.css') }}">
+
+
+<body>
+
+
+<div class="container py-4">
+
+    <div class="mb-4">
+        <h4>Make Payment</h4>
+        <p class="text-muted">Complete your payment for Booking #{{ booking.id }}</p>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+            <div class="alert alert-{{ 'success' if category == 'success' else 'danger' }} py-2 mb-3" role="alert">
+                {{ message }}
+            </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <div class="row g-4">
+
+        <!-- Order summary -->
+        <div class="col-lg-4">
+            <div class="summary-box">
+                <h6>Order Summary</h6>
+
+                <div class="summary-row">
+                    <span>Room</span>
+                    <span>{{ booking.room_number }}</span>
+                </div>
+                <div class="summary-row">
+                    <span>Rent / month</span>
+                    <span>RM {{ "%.2f"|format(booking.rent_per_month) }}</span>
+                </div>
+                <div class="summary-row">
+                    <span>Start Date</span>
+                    <span>{{ booking.start_date }}</span>
+                </div>
+                <div class="summary-row">
+                    <span>End Date</span>
+                    <span>{{ booking.end_date }}</span>
+                </div>
+
+                <hr>
+
+                <div class="summary-row total">
+                    <span>Total Amount</span>
+                    <span>RM {{ "%.2f"|format(booking.total_payment) }}</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Payment methods -->
+        <div class="col-lg-8">
+            <div class="payment-box">
+
+                 <div class="payment-box-header">
+                    <h6>Choose a Payment Method</h6>
+                </div>
+
+                <!-- Method tabs -->
+                <ul class="nav nav-tabs payment-tabs" id="paymentTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="card-tab" data-bs-toggle="tab"
+                                data-bs-target="#card-pane" type="button" role="tab">
+                            <i class="bi bi-credit-card me-1"></i>Card
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="ewallet-tab" data-bs-toggle="tab"
+                                data-bs-target="#ewallet-pane" type="button" role="tab">
+                            <i class="bi bi-wallet2 me-1"></i>E-Wallet
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="banking-tab" data-bs-toggle="tab"
+                                data-bs-target="#banking-pane" type="button" role="tab">
+                            <i class="bi bi-bank me-1"></i>Online Banking
+                        </button>
+                    </li>
+                </ul>
+
+                <div class="tab-content p-3">
+
+                    <!-- ===================== CARD ===================== -->
+                    <div class="tab-pane fade show active" id="card-pane" role="tabpanel">
+                        <form method="POST" action="{{ url_for('process_payment') }}">
+                            <input type="hidden" name="booking_id" value="{{ booking.id }}">
+                            <input type="hidden" name="payment_method" value="Card">
+
+                            <div class="mb-3">
+                                <label class="form-label-sm">Cardholder Name</label>
+                                <input type="text" name="cardholder_name" class="form-control"
+                                       placeholder="As shown on card" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label-sm">Card Number</label>
+                                <input type="text" name="card_number" class="form-control"
+                                       placeholder="1234 5678 9012 3456"
+                                       maxlength="19" required>
+                            </div>
+
+                            <div class="row g-3 mb-3">
+                                <div class="col-sm-6">
+                                    <label class="form-label-sm">Expiry Date</label>
+                                    <input type="text" name="expiry_date" class="form-control"
+                                           placeholder="MM/YY" maxlength="5" required>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label class="form-label-sm">CVV</label>
+                                    <input type="text" name="cvv" class="form-control"
+                                           placeholder="123" maxlength="4" required>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn-pay-now w-100">
+                                Pay RM {{ "%.2f"|format(booking.total_payment) }}
+                            </button>
+                            <p class="gateway-note">
+                                <i class="bi bi-shield-lock me-1"></i>This is a simulated payment gateway for demonstration purposes.
+                            </p>
+                        </form>
+                    </div>
+
+                    <!-- ===================== E-WALLET ===================== -->
+                    <div class="tab-pane fade" id="ewallet-pane" role="tabpanel">
+                        <form method="POST" action="{{ url_for('process_payment') }}">
+                            <input type="hidden" name="booking_id" value="{{ booking.id }}">
+                            <input type="hidden" name="payment_method" value="E-Wallet">
+
+                            <div class="mb-3">
+                                <label class="form-label-sm">Select E-Wallet</label>
+                                <div class="ewallet-options">
+                                    <label class="ewallet-option">
+                                        <input type="radio" name="ewallet_provider" value="Touch 'n Go eWallet" checked>
+                                        <span><i class="bi bi-wallet2 me-1"></i>Touch 'n Go eWallet</span>
+                                    </label>
+                                    <label class="ewallet-option">
+                                        <input type="radio" name="ewallet_provider" value="GrabPay">
+                                        <span><i class="bi bi-wallet2 me-1"></i>GrabPay</span>
+                                    </label>
+                                    <label class="ewallet-option">
+                                        <input type="radio" name="ewallet_provider" value="Boost">
+                                        <span><i class="bi bi-wallet2 me-1"></i>Boost</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label-sm">Account Holder Name</label>
+                                <input type="text" name="ewallet_name" class="form-control"
+                                       placeholder="Full name on e-wallet account" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label-sm">Registered Phone Number</label>
+                                <input type="text" name="ewallet_phone" class="form-control"
+                                       placeholder="e.g. 012-3456789" required>
+                            </div>
+
+                            <button type="submit" class="btn-pay-now w-100">
+                                Pay RM {{ "%.2f"|format(booking.total_payment) }}
+                            </button>
+                            <p class="gateway-note">
+                                <i class="bi bi-shield-lock me-1"></i>This is a simulated payment gateway for demonstration purposes.
+                            </p>
+                        </form>
+                    </div>
+
+                    <!-- ===================== ONLINE BANKING ===================== -->
+                    <div class="tab-pane fade" id="banking-pane" role="tabpanel">
+                        <form method="POST" action="{{ url_for('process_payment') }}">
+                            <input type="hidden" name="booking_id" value="{{ booking.id }}">
+                            <input type="hidden" name="payment_method" value="Online Banking">
+
+                            <div class="mb-3">
+                                <label class="form-label-sm">Select Bank</label>
+                                <select name="bank_name" class="form-select" required>
+                                    <option value="">Choose your bank</option>
+                                    <option value="Maybank2u">Maybank2u</option>
+                                    <option value="CIMB Clicks">CIMB Clicks</option>
+                                    <option value="Public Bank">Public Bank (PBe)</option>
+                                    <option value="RHB Now">RHB Now</option>
+                                    <option value="Hong Leong Connect">Hong Leong Connect</option>
+                                    <option value="Bank Islam">Bank Islam Go</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label-sm">Account Holder Name</label>
+                                <input type="text" name="bank_account_name" class="form-control"
+                                       placeholder="Full name on bank account" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label-sm">Account Number</label>
+                                <input type="text" name="bank_account_number" class="form-control"
+                                       placeholder="e.g. 1234567890" required>
+                            </div>
+
+                            <button type="submit" class="btn-pay-now w-100">
+                                Pay RM {{ "%.2f"|format(booking.total_payment) }}
+                            </button>
+                            <p class="gateway-note">
+                                <i class="bi bi-shield-lock me-1"></i>This is a simulated payment gateway for demonstration purposes.
+                            </p>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Bootstrap JS bundle is required ONLY for the tab switching (no custom JS used) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+
+{% endblock %}

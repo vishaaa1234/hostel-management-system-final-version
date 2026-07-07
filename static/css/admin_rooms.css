@@ -1,0 +1,390 @@
+@import url('base.css');
+
+/* admin_rooms.css */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f0f0f0;
+  min-height: 100vh;
+}
+
+/* ── Quick Stats ── */
+.quick-stats {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 30px;
+}
+
+.stat-box {
+    width: 150px;
+    padding: 12px 10px;
+    background: #ffffff;
+    border: 1px solid #dcdcdc;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    transition: box-shadow 0.2s ease;
+}
+
+.stat-box:hover {
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+.stat-box .number {
+    font-size: 24px;
+    font-weight: 700;
+    color: #7b2fbe;
+    line-height: 1.2;
+}
+
+.stat-box .label {
+    margin-top: 6px;
+    font-size: 14px;
+    color: #555;
+}
+
+.stat-box .label i {
+    margin-right: 5px;
+    color: #7b2fbe;
+}
+
+/* ── Page Header ── */
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.page-header h4 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.page-header h4 i {
+  margin-right: 10px;
+  color: #7b2fbe;
+}
+
+/* ── Add Button ── */
+.btn-add {
+  background: linear-gradient(135deg, #7b2fbe, #9b4dca);
+  color: #ffffff;
+  padding: 10px 22px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: none;
+  box-shadow: 0 2px 8px rgba(123, 47, 190, 0.3);
+}
+
+.btn-add:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(123, 47, 190, 0.4);
+  color: #ffffff;
+}
+
+.btn-add i {
+  font-size: 1rem;
+}
+
+/* ── Alert Messages ── */
+.alert-msg {
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.alert-msg.success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.alert-msg.danger {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+.alert-msg i {
+  font-size: 1.1rem;
+}
+
+/* ── Table Card ── */
+.table-card {
+  border: 1px solid #e0c8e0;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.table-title {
+  background: linear-gradient(135deg, #f0e8f5, #e8d8f0);
+  padding: 12px 20px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #000000;
+  border-bottom: 1px solid #dcc8e0;
+}
+
+.table-title i {
+  margin-right: 10px;
+  color: #7b2fbe;
+}
+
+/* ── Room Table ── */
+.rooms-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+}
+
+.rooms-table thead tr {
+  background: linear-gradient(135deg, #f5f0f8, #ede8f0);
+}
+
+.rooms-table th {
+  padding: 12px 14px;
+  text-align: left;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #5a2d5a;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border-bottom: 2px solid #dcc8e0;
+}
+
+.rooms-table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid #f0e0f0;
+  color: #333;
+  vertical-align: middle;
+}
+
+.rooms-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.rooms-table tbody tr:hover {
+  background-color: #fdf5fd;
+  transition: background 0.2s ease;
+}
+
+/* ── Badges ── */
+.badge-available {
+  background-color: #d4edda;
+  color: #155724;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.badge-available i {
+  font-size: 0.7rem;
+}
+
+.badge-occupied {
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.badge-occupied i {
+  font-size: 0.7rem;
+}
+
+/* ── Action Buttons ── */
+.btn-edit {
+  color: #4a6fa5;
+  font-size: 0.85rem;
+  text-decoration: none;
+  font-weight: 500;
+  margin-right: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: color 0.2s;
+}
+
+.btn-edit:hover {
+  color: #2c4a7a;
+  text-decoration: underline;
+}
+
+.btn-edit i {
+  font-size: 0.9rem;
+}
+
+.btn-delete {
+  background: none;
+  border: none;
+  color: #c0392b;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: color 0.2s;
+}
+
+.btn-delete:hover {
+  color: #a93226;
+  text-decoration: underline;
+}
+
+.btn-delete i {
+  font-size: 0.9rem;
+}
+
+/* ── Empty Message ── */
+.empty-msg {
+  text-align: center;
+  color: #888;
+  padding: 40px 20px;
+}
+
+.empty-msg i {
+  font-size: 2.5rem;
+  color: #ddd;
+  display: block;
+  margin-bottom: 12px;
+}
+
+/* ── Form Actions ── */
+.form-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.btn-save {
+  background: linear-gradient(135deg, #7b2fbe, #9b4dca);
+  color: #ffffff;
+  border: none;
+  padding: 10px 28px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-save:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(123, 47, 190, 0.3);
+}
+
+.btn-cancel {
+  background: #f3f0ff;
+  color: #4b0082;
+  border: 1.5px solid #c9b8e8;
+  padding: 10px 24px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-cancel:hover {
+  background: #ede8ff;
+  transform: translateY(-2px);
+}
+
+/* ── Responsive ── */
+@media (max-width: 992px) {
+  .rooms-table {
+    font-size: 0.8rem;
+  }
+
+  .rooms-table th,
+  .rooms-table td {
+    padding: 8px 10px;
+  }
+}
+
+@media (max-width: 768px) {
+  .quick-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .page-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .page-header h4 {
+    text-align: center;
+  }
+
+  .btn-add {
+    justify-content: center;
+  }
+
+  /* Make table horizontally scrollable on mobile */
+  .table-card {
+    overflow-x: auto;
+  }
+
+  .rooms-table {
+    min-width: 700px;
+  }
+}
+
+@media (max-width: 480px) {
+  .quick-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .stat-box .number {
+    font-size: 22px;
+  }
+
+  .form-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .btn-save,
+  .btn-cancel {
+    width: 100%;
+    justify-content: center;
+  }
+}

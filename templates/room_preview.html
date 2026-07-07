@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Room Preview</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/room_preview.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/room_booking_system.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar">
+    <span class="navbar-brand">Student Hostel</span>
+    <div class="d-flex gap-2">
+        <button class="back-btn"
+                onclick="window.location.href='{{ url_for('home') }}'">
+            Back to Home
+        </button>
+    </div>
+</nav>
+<div class="container py-4">
+
+    <!-- Header -->
+    <div class="page-hero mb-4">
+        <div>
+            <p class="eyebrow">Hostel Rooms</p>
+            <h4>Available Rooms</h4>
+            <p class="text-muted mb-0">Browse hostel rooms below. Filter by type, gender, or price.</p>
+        </div>
+        <div class="hero-stat">
+            <span class="hero-stat-number">{{ rooms|selectattr('room_status','equalto','Available')|list|length }}</span>
+            <span class="hero-stat-label">rooms open now</span>
+        </div>
+    </div>
+
+    <!-- Filter Bar -->
+    <form method="GET" action="{{ url_for('room_preview') }}">
+        <div class="row g-2 align-items-end mb-4">
+            <div class="col-sm-3">
+                <label class="filter-label">Room Type</label>
+                <select name="room_type" class="form-select form-select-sm">
+                    <option value="">All Types</option>
+                    <option value="Single" {% if request.args.get('type') == 'Single' %}selected{% endif %}>Single</option>
+                    <option value="Double" {% if request.args.get('type') == 'Double' %}selected{% endif %}>Double</option>
+                    <option value="Triple" {% if request.args.get('type') == 'Triple' %}selected{% endif %}>Triple</option>
+                    <option value="Quad"   {% if request.args.get('type') == 'Quad'   %}selected{% endif %}>Quad</option>
+                </select>
+            </div>
+            <div class="col-sm-3">
+                <label class="filter-label">Gender</label>
+                <select name="gender" class="form-select form-select-sm">
+                    <option value="">All</option>
+                    <option value="Male"   {% if request.args.get('gender') == 'Male'   %}selected{% endif %}>Male</option>
+                    <option value="Female" {% if request.args.get('gender') == 'Female' %}selected{% endif %}>Female</option>
+                </select>
+            </div>
+            <div class="col-sm-3">
+                <label class="filter-label">Max Price (RM/month)</label>
+                <input type="number" name="price" class="form-control form-control-sm"
+                       placeholder="e.g. 500"
+                       value="{{ request.args.get('price', '') }}">
+            </div>
+            <div class="col-sm-3 d-flex gap-2">
+                <button type="submit" class="btn-filter flex-fill">Filter</button>
+                <a href="{{ url_for('room_preview') }}" class="btn-reset flex-fill text-center">Reset</a>
+            </div>
+        </div>
+    </form>
+
+    <!-- Room Count -->
+    <p class="result-count mb-3">{{ rooms|length }} room{{ 's' if rooms|length != 1 else '' }} found</p>
+
+    <!-- Room Cards -->
+    <div class="row g-3 mb-4">
+        {% for room in rooms %}
+        <div class="col-md-4">
+            <div class="room-card type-{{ room.room_type|lower }} {% if room.room_status == 'Occupied' %}occupied{% endif %}">
+
+                <div class="room-card-top">
+                    <span class="room-title">Room {{ room.room_number }}</span>
+                    {% if room.room_status == 'Available' %}
+                        <span class="badge-available"><i class="bi bi-check-circle-fill"></i> Available</span>
+                    {% else %}
+                        <span class="badge-occupied"><i class="bi bi-lock-fill"></i> Occupied</span>
+                    {% endif %}
+                </div>
+
+                <div class="room-icon-row">
+                    <span class="icon-badge"><i class="bi bi-layers"></i></span>
+                    <div>
+                        <span class="room-type-label">{{ room.room_type }}</span>
+                        <span class="room-meta-inline">{{ room.gender }} &middot; {{ room.bed_capacity }} pax</span>
+                    </div>
+                </div>
+
+                <div class="occupancy-widget">
+                    <div class="occupancy-bar">
+                        {% set filled = room.bed_capacity - room.available_beds %}
+                        {% set pct = (filled / room.bed_capacity * 100) if room.bed_capacity else 0 %}
+                        <div class="occupancy-fill" style="width: {{ pct }}%;"></div>
+                    </div>
+                    <span class="occupancy-label">{{ room.available_beds }} of {{ room.bed_capacity }} beds free</span>
+                </div>
+
+                <p class="room-price">RM {{ "%.2f"|format(room.price_per_month) }} <span class="text-muted">/month</span></p>
+
+                <div class="room-card-actions">
+                    <!-- View Details -->
+                    <button type="button" class="btn-view-details w-100"
+                            data-bs-toggle="modal" data-bs-target="#roomModal{{ room.room_id }}">
+                        View Details
+                    </button>
+                    <!-- Book → redirect to login -->
+                    {% if room.room_status == 'Available' %}
+                        <button type="button" class="btn-book-room w-100 text-center"
+                                data-bs-toggle="modal" data-bs-target="#loginModal">
+                            Book This Room
+                        </button>
+                    {% else %}
+                        <span class="btn-book-disabled w-100">Fully Occupied</span>
+                    {% endif %}
+                </div>
+
+            </div>
+
+            <!-- Modal -->
+            <div class="modal fade" id="roomModal{{ room.room_id }}" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content room-modal-content">
+                        <div class="modal-header type-{{ room.room_type|lower }}-header">
+                            <h5 class="modal-title">Room {{ room.room_number }}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                {% if room.room_status == 'Available' %}
+                                    <span class="badge-available"><i class="bi bi-check-circle-fill"></i> Available</span>
+                                {% else %}
+                                    <span class="badge-occupied"><i class="bi bi-lock-fill"></i> Occupied</span>
+                                {% endif %}
+                                <span class="badge-type ms-2">{{ room.room_type }}</span>
+                            </div>
+                            <div class="modal-details-grid">
+                                <div class="detail-item">
+                                    <span class="detail-label"><i class="bi bi-door-open"></i> Room Number</span>
+                                    <span class="detail-value">{{ room.room_number }}</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label"><i class="bi bi-layers"></i> Room Type</span>
+                                    <span class="detail-value">{{ room.room_type }}</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label"><i class="bi bi-gender-ambiguous"></i> Gender</span>
+                                    <span class="detail-value">{{ room.gender }}</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label"><i class="bi bi-people"></i> Bed Capacity</span>
+                                    <span class="detail-value">{{ room.bed_capacity }} pax</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label"><i class="bi bi-bed"></i> Available Beds</span>
+                                    <span class="detail-value">{{ room.available_beds }}</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label"><i class="bi bi-tag"></i> Price / Month</span>
+                                    <span class="detail-value price">RM {{ "%.2f"|format(room.price_per_month) }}</span>
+                                </div>
+                            </div>
+                            <hr>
+                            <p class="detail-label mb-1"><i class="bi bi-info-circle"></i> Room Details</p>
+                            <p class="modal-room-desc">{{ room.room_details }}</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn-cancel" data-bs-dismiss="modal">Close</button>
+                            {% if room.room_status == 'Available' %}
+                                <button type="button" class="btn-book-room"
+                                        data-bs-toggle="modal" data-bs-target="#loginModal">
+                                    Book This Room
+                                </button>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        {% else %}
+        <div class="col-12 text-center text-muted py-5">
+            <i class="bi bi-door-closed fs-1"></i>
+            <p>No rooms match your filters.</p>
+            <a href="{{ url_for('room_preview') }}">Clear filters</a>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Shared Login Popup (opened by any "Book This Room" button) -->
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" style="background: transparent; border: none; box-shadow: none;">
+                <div class="login-card mx-auto" style="max-width: 380px; position: relative;">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                            style="position: absolute; top: 16px; right: 16px;"></button>
+                    <h2 id="loginModalLabel">User Login</h2>
+                    <hr>
+                    <form method="POST" action="{{ url_for('login') }}">
+                        <div class="form-group">
+                            <label for="popupEmail">Email</label>
+                            <input type="email" id="popupEmail" name="email" placeholder="Enter email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="popupPassword">Password</label>
+                            <input type="password" id="popupPassword" name="password" placeholder="Enter password" required>
+                        </div>
+                        {% if message %}
+                        <p style="color:#c0392b; font-size:0.85rem; text-align:center;">{{ message }}</p>
+                        {% endif %}
+                        <button type="submit" class="login2-btn">Login</button>
+                        <p class="register-text">
+                            New to hostel? <a href="{{ url_for('student_register') }}">Register here</a>
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+{% if message %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        new bootstrap.Modal(document.getElementById('loginModal')).show();
+    });
+</script>
+{% endif %}
+</body>
+</html>

@@ -1,0 +1,95 @@
+.report-summary {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 25px;
+}
+.stat-box,
+.report-card {
+    width: 140px;
+    padding: 12px 10px;
+    background: #ffffff;
+    border: 1px solid #dcdcdc;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    transition: box-shadow 0.2s ease;
+}
+.stat-box:hover,
+.report-card:hover {
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+.report-card h4 {
+    margin: 0;
+    font-size: 13px;
+    font-weight: 500;
+    color: #555;
+}
+
+.report-value {
+    margin-top: 6px;
+    font-size: 24px;
+    font-weight: 700;
+    color: #7b2fbe;
+    line-height: 1.2;
+}
+
+.chart-row {
+    display: flex;
+    gap: 25px;
+    flex-wrap: wrap;
+    margin-bottom: 30px;
+}
+
+.chart-card {
+    flex: 1;
+    min-width: 300px;
+    max-width: 500px;
+    background: white;
+    border-radius: 14px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .08);
+}
+
+.chart-card h3 {
+    margin-bottom: 15px;
+    font-size: 1rem;
+}
+
+/* Make charts smaller */
+.chart-container {
+    height: 200px;
+    position: relative;
+    width: 100%;
+}
+
+.chart-container canvas {
+    max-height: 100%;
+    max-width: 100%;
+}
+
+.report-actions {
+    display: flex;
+    gap: 15px;
+}
+
+.report-btn {
+    text-decoration: none;
+    background: #7b2fbe;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+}
+
+.report-btn:hover {
+    opacity: .85;
+}
+
+.report-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}

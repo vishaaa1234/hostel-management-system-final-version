@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Warden Dashboard - Student Hostel</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/warden_dashboard.css') }}">
+</head>
+<body>
+
+{% extends 'base_warden.html' %}
+{% block content %}
+
+<h1>Welcome, {{ session.get('name', 'Warden') }}</h1>
+<!-- Quick Stats -->
+<div class="quick-stats">
+    <div class="stat-box">
+        <div class="number">{{ total_students }}</div>
+        <div class="label"> Total Students</div>
+    </div>
+    <div class="stat-box">
+        <div class="number">{{ total_beds }}</div>
+        <div class="label"> Total Beds</div>
+    </div>
+    <div class="stat-box">
+        <div class="number">{{ pending_maintenance }}</div>
+        <div class="label"> Maintenance Requests</div>
+    </div>
+</div>
+
+<div class="cards">
+
+    <a href="{{ url_for('manage_maintenance') }}" class="card-link card-maintenance">
+        <div class="card">
+            <div class="card-img">
+                <img src="{{ url_for('static', filename='images/settings-line-icon.png') }}" alt="Maintenance">
+            </div>
+            <div class="card-body">
+            <p>Manage Maintenance Request</p>
+                <span class="card-desc">Check all the maintenance requests </span>
+            </div>
+        </div>
+    </a>
+
+    <a href="{{ url_for('manage_announcements') }}" class="card-link card-announcement">
+        <div class="card">
+            <div class="card-img">
+                <img src="{{ url_for('static', filename='images/loudspeaker-icon.png') }}" alt="Announcement">
+            </div>
+            <div class="card-body">
+            <p>Post Announcement</p>
+                <span class="card-desc">Post important announcement</span>
+            </div>
+        </div>
+    </a>
+
+    <a href="{{ url_for('overdue_payments') }}" class="card-link card-payment">
+        <div class="card">
+            <div class="card-img">
+                <img src="{{ url_for('static', filename='images/payment.png') }}" alt="Payments">
+            </div>
+            <div class="card-body">
+            <p>Student Payments</p>
+                <span class="card-desc">View outstanding payments and submit fine payments</span>
+                </div>
+        </div>
+    </a>
+
+    <a href="{{ url_for('warden_view_students') }}" class="card-link card-list">
+        <div class="card">
+            <div class="card-img">
+                <img src="{{ url_for('static', filename='images/diary-icon.png') }}" alt="Students">
+            </div>
+            <div class="card-body">
+            <p>Student Lists</p>
+                <span class="card-desc">View all registered students and their details</span>
+
+
+                </div>
+        </div>
+    </a>
+
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,160 @@
+{% extends 'base_student.html' %}
+
+{% block content %}
+
+
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/maintenance.css') }}">
+
+
+<div class="container py-8">
+
+
+    <div class="page-header-wrapper mb-4">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <div class="page-header">
+                    <h4>Maintenance Request</h4>
+                    <p>Report issues in your room.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="stat-wrapper">
+                    <div class="stat">
+                        <span class="stat-number">{{ my_requests|length }}</span>
+                        <span class="stat-label">requests submitted</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="header-divider"></div>
+    </div>
+
+    {% if room_number != 'N/A' %}
+
+
+
+        <div class="form-card mb-4">
+            <h6 class="mb-3">Submit Request</h6>
+            <form method="POST" action="{{ url_for('submit_maintenance') }}">
+                <div class="mb-3">
+                    <label class="form-label">Room</label>
+                    <input type="text" class="form-control" value="Room {{ room_number }}" disabled>
+                </div>
+
+                <div class="mb-2">
+                    <label class="form-label">Category</label>
+                    <select id="category" name="category" class="form-control" required>
+                        <option value="">Select the issue category</option>
+                        <option value="Fire Safety / Smoke Detector">Fire Safety / Smoke Detector</option>
+                        <option value="Gas Leak">Gas Leak</option>
+                        <option value="Elevator/Lift Issues">Elevator/Lift Issues</option>
+                        <option value="Plumbing Issues">Plumbing Issues</option>
+                        <option value="Electrical Issues">Electrical Issues</option>
+                        <option value="Furniture">Furniture</option>
+                        <option value="Doors, Windows, and Locks">Doors, Windows, and Locks</option>
+                        <option value="HVAC and Ventilation">HVAC and Ventilation</option>
+                        <option value="Internet and Communication">Internet and Communication</option>
+                        <option value="Building Infrastructure">Building Infrastructure</option>
+                        <option value="Cleanliness and Hygiene">Cleanliness and Hygiene</option>
+                        <option value="Laundry Facilities">Laundry Facilities</option>
+                        <option value="Kitchen and Pantry Areas">Kitchen and Pantry Areas</option>
+                        <option value="Safety and Security">Safety and Security</option>
+                        <option value="Room-specific Comfort">Room-specific Comfort</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                   <label class="form-label">Issue Description</label>
+                   <textarea class="form-control" name="description" rows="3" required></textarea>
+                </div>
+
+                {% if not can_submit and payment_message %}
+                 <div class="payment-block-message">
+                      <div class="alert alert-warning" role="alert">
+                          {{ payment_message }}
+                          {% if booking_id %}
+                          <a href="{{ url_for('make_payment', booking_id=booking_id) }}" class="btn btn-primary">Pay Now</a>
+                          {% endif %}
+                      </div>
+                 </div>
+                 {% endif %}
+
+
+                <button type="submit" class="btn-primary" {% if not can_submit %}disabled{% endif %}>
+                    Submit Request
+                </button>
+              </form>
+        </div>
+
+    <!-- Request History -->
+    <div class="table-card">
+            <div class="table-header">
+
+
+        <div class="table-header">
+            <h6>My Requests</h6>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table maintenance-table mb-0">
+
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Issue</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for m in my_requests %}
+                    <tr>
+                        <td>{{ m.id }}</td>
+                        <td>{{ m.description }}</td>
+                        <td>{{ m.report_date }}</td>
+                        <td>
+                            <span class="badge-{{ m.maintenance_status }}">
+                                {{ m.maintenance_status }}
+                            </span>
+                        </td>
+                        <td>
+                            {% if m.maintenance_status == 'pending' %}
+                                <form method="POST" action="{{ url_for('delete_maintenance', request_id=m.request_id) }}"
+                                      onsubmit="return confirm('Delete this maintenance request?');">
+                                    <button type="submit" class="btn-action danger">Delete</button>
+                                </form>
+
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+
+                        <td colspan="4" class="text-center text-muted py-4">
+                                <i class="bi bi-clipboard fs-3 d-block mb-2"></i>
+                            No requests submitted
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+{% else %}
+        <div class="no-room-message">
+            <div class="alert alert-warning" role="alert">
+                <h5>No Room Assigned</h5>
+                <p>You need to book a room before you can submit maintenance requests.</p>
+                <a href="{{ url_for('room_booking') }}" class="btn btn-primary mt-2">
+                    Book a Room Now
+                </a>
+            </div>
+        </div>
+        {% endif %}
+
+</div>
+{% endblock %}

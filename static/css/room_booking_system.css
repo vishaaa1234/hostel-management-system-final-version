@@ -1,0 +1,615 @@
+/* room_booking_system.css */
+@import url('base.css');
+
+/* ========================================
+   HEADER & HERO STATS - SIDE BY SIDE
+   ======================================== */
+
+.page-header-wrapper {
+    padding: 0;
+    margin-bottom: 24px;
+}
+
+.page-header {
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.page-header h1 {
+    font-weight: 500;
+    color: #0f2a45;
+    font-size: 1rem;
+    letter-spacing: -0.3px;
+    margin-bottom: 4px;
+}
+
+.page-header p {
+    color: #4a6580;
+    font-size: 0.95rem;
+    margin-bottom: 0;
+}
+/* Hero Stat - Right Aligned */
+.hero-stat-wrapper {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    height: 100%;
+}
+
+.hero-stat {
+    text-align: center;
+    display: inline-block;
+}
+
+.hero-stat-number {
+    display: block;
+    font-size: 2.3rem;
+    font-weight: 800;
+    color: #4a6fa5;
+    line-height: 1.1;
+}
+
+.header-divider {
+    margin-top: 1.5rem;
+    border-bottom: 2px solid rgba(173, 210, 240, 0.40);
+}
+
+.page-hero {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.page-hero .eyebrow {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #4a6fa5;
+    margin-bottom: 4px;
+}
+
+.page-hero h4 {
+    font-weight: 500;
+    color: #0f2a45;
+    font-size: 1.3rem;
+    letter-spacing: -0.3px;
+    margin-bottom: 4px;
+}
+
+.page-hero p {
+    color: #4a6580;
+    font-size: 0.95rem;
+    margin-bottom: 0;
+}
+
+.hero-stat-label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #4a6580;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+
+/* ========================================
+   BOOKING PANEL
+   ======================================== */
+
+.booking-panel {
+    background: rgba(255, 255, 255, 0.72);
+    backdrop-filter: blur(6px);
+    border-radius: 14px;
+    box-shadow: 0 4px 18px rgba(26, 79, 138, 0.10);
+    border: 1.5px solid rgba(26, 79, 138, 0.20);
+    overflow: hidden;
+}
+
+.booking-panel-head {
+    background: rgba(26, 79, 138, 0.08);
+    padding: 14px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1.5px solid rgba(173, 210, 240, 0.35);
+}
+
+.booking-panel-head h6 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #0f2a45;
+    margin: 0;
+}
+
+.close-link {
+    color: #4a6580;
+    text-decoration: none;
+    font-size: 1rem;
+}
+
+.close-link:hover {
+    color: #1a4f8a;
+}
+
+/* Room Summary (inside booking panel) */
+.room-summary-card {
+    background: rgba(173, 210, 240, 0.18);
+    border-radius: 10px;
+    padding: 16px;
+    height: 100%;
+}
+
+.room-meta {
+    font-size: 0.85rem;
+    color: #2a4a6a;
+    margin-bottom: 6px;
+}
+
+.room-price {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #1a4f8a;
+}
+
+.booking-note {
+    font-size: 0.8rem;
+    color: #4a6580;
+    margin-bottom: 0;
+}
+
+.btn-confirm-booking {
+    background: #1a4f8a;
+    color: #ffffff;
+    border: none;
+    padding: 10px 28px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+    display: inline-block;
+}
+
+.btn-confirm-booking:hover {
+    background: #13377a;
+    transform: translateY(-1px);
+}
+
+/* ========================================
+   ROOM CARDS
+   ======================================== */
+
+.room-card {
+    background: rgba(255, 255, 255, 0.72);
+    backdrop-filter: blur(6px);
+    border-radius: 14px;
+    padding: 20px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    box-shadow: 0 4px 16px rgba(26, 79, 138, 0.08);
+    border: 1.5px solid rgba(173, 210, 240, 0.35);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.room-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 28px rgba(26, 79, 138, 0.14);
+}
+
+.room-card.occupied {
+    opacity: 0.7;
+}
+
+.room-card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.room-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #0f2a45;
+}
+
+/* Badges */
+.badge-available {
+    background: #d4edda;
+    color: #1a6b2f;
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 50px;
+}
+
+.badge-occupied {
+    background: #f8d7da;
+    color: #842029;
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 50px;
+}
+
+.badge-type {
+    background: rgba(26, 79, 138, 0.12);
+    color: #1a4f8a;
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 50px;
+}
+
+/* Room Icon Row */
+.room-icon-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.icon-badge {
+    background: rgba(26, 79, 138, 0.10);
+    color: #1a4f8a;
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    flex-shrink: 0;
+}
+
+.room-type-label {
+    display: block;
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: #0f2a45;
+}
+
+.room-meta-inline {
+    font-size: 0.78rem;
+    color: #4a6580;
+}
+
+/* Occupancy Widget */
+.occupancy-widget {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.occupancy-bar {
+    height: 6px;
+    background: rgba(173, 210, 240, 0.35);
+    border-radius: 50px;
+    overflow: hidden;
+}
+
+.occupancy-fill {
+    height: 100%;
+    background: #1a4f8a;
+    border-radius: 50px;
+    transition: width 0.4s ease;
+}
+
+.occupancy-label {
+    font-size: 0.75rem;
+    color: #4a6580;
+    font-weight: 500;
+}
+
+/* Card Action Buttons */
+.room-card-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: auto;
+}
+
+.btn-view-details {
+    background: rgba(26, 79, 138, 0.08);
+    color: #1a4f8a;
+    border: 1.5px solid rgba(26, 79, 138, 0.20);
+    padding: 8px 0;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-view-details:hover {
+    background: rgba(26, 79, 138, 0.15);
+}
+
+.btn-book-room {
+    background: #1a4f8a;
+    color: #ffffff;
+    border: none;
+    padding: 8px 0;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+    display: block;
+    text-align: center;
+    width: 100%;
+}
+
+/* Make sure Pay button is visible */
+.btn-pay-pill {
+    background: #1a4f8a !important;
+    color: #ffffff !important;
+    border-radius: 50px !important;
+    font-size: 0.78rem !important;
+    font-weight: 600 !important;
+    padding: 4px 14px !important;
+    border: none !important;
+    transition: background 0.2s !important;
+    display: inline-block !important;  /* ← Add this */
+    visibility: visible !important;    /* ← Add this */
+    opacity: 1 !important;            /* ← Add this */
+}
+
+.btn-pay-pill:hover {
+    background: #13377a !important;
+    color: #ffffff !important;
+}
+
+.btn-book-room:hover {
+    background: #13377a;
+    transform: translateY(-1px);
+}
+
+.btn-book-disabled {
+    background: #e9ecef;
+    color: #adb5bd;
+    padding: 8px 0;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    display: block;
+    text-align: center;
+    cursor: not-allowed;
+}
+
+/* ========================================
+   MODAL
+   ======================================== */
+
+.room-modal-content {
+    border-radius: 14px;
+    overflow: hidden;
+    border: none;
+    box-shadow: 0 8px 32px rgba(26, 79, 138, 0.15);
+}
+
+.modal-header {
+    background: rgba(173, 210, 240, 0.40);
+    border-bottom: 1.5px solid rgba(173, 210, 240, 0.40);
+    padding: 16px 20px;
+}
+
+.modal-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #0f2a45;
+}
+
+.modal-details-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.detail-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.detail-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: #4a6580;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.detail-value {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #0f2a45;
+}
+
+.detail-value.price {
+    font-weight: 700;
+    color: #1a4f8a;
+}
+
+.modal-room-desc {
+    font-size: 0.85rem;
+    color: #2a4a6a;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.modal-footer {
+    border-top: 1.5px solid rgba(173, 210, 240, 0.35);
+    padding: 14px 20px;
+    gap: 8px;
+}
+
+.btn-cancel {
+    background: #eef5fc;
+    color: #1a4f8a;
+    border: 1.5px solid #a8c8e8;
+    padding: 8px 20px;
+    border-radius: 8px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-cancel:hover {
+    background: #dceeff;
+}
+
+/* ========================================
+   FORM
+   ======================================== */
+
+.form-label-sm {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #2a4a6a;
+    display: block;
+    margin-bottom: 4px;
+}
+
+/* ========================================
+   STATUS CARD (My Booking)
+   ======================================== */
+
+.status-card {
+    background: rgba(255, 255, 255, 0.72);
+    backdrop-filter: blur(6px);
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 4px 18px rgba(26, 79, 138, 0.09);
+    border: 1.5px solid rgba(173, 210, 240, 0.35);
+}
+
+.status-card-head {
+    padding: 16px 20px;
+    border-bottom: 1.5px solid rgba(173, 210, 240, 0.35);
+    background: rgba(173, 210, 240, 0.20);
+}
+
+.btn-pay-pill {
+    background: #1a4f8a;
+    color: #ffffff !important;
+    border-radius: 50px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 4px 14px;
+    border: none;
+    transition: background 0.2s;
+}
+
+.btn-pay-pill:hover {
+    background: #13377a;
+}
+
+/* Status Badges */
+.badge-pending {
+    background: #fff3cd;
+    color: #856404;
+}
+.badge-approved {
+    background: #d4edda;
+    color: #1a6b2f;
+}
+.badge-rejected {
+    background: #f8d7da;
+    color: #842029;
+}
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+
+@media (max-width: 768px) {
+    .page-header-wrapper {
+        padding: 1.5rem 0 0.5rem 0;
+    }
+
+    .page-header h1 {
+        font-size: 1.3rem;
+    }
+
+    .hero-stat-wrapper {
+        justify-content: center;
+        margin-top: 8px;
+    }
+
+    .hero-stat-number {
+        font-size: 2rem;
+    }
+
+    .header-divider {
+        margin-top: 1.25rem;
+    }
+
+    .modal-details-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .page-header-wrapper {
+        padding: 1rem 0 0.5rem 0;
+    }
+
+    .page-header h1 {
+        font-size: 1.1rem;
+    }
+
+    .page-header p {
+        font-size: 0.85rem;
+    }
+
+    .hero-stat-number {
+        font-size: 1.5rem;
+    }
+
+    .hero-stat-label {
+        font-size: 0.65rem;
+    }
+
+    .room-card {
+        padding: 16px;
+    }
+
+    .header-divider {
+        margin-top: 0.75rem;
+    }
+}
+
+/* ── Empty Booking State ── */
+.empty-booking {
+    text-align: center;
+    padding: 36px 20px;
+}
+
+.empty-booking i {
+    font-size: 2.4rem;
+    color: #a8c8e8;
+    display: block;
+    margin-bottom: 12px;
+}
+
+.empty-booking h6 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #0f2a45;
+    margin-bottom: 6px;
+}
+
+.empty-booking p {
+    font-size: 0.88rem;
+    color: #4a6580;
+    margin: 0;
+    max-width: 380px;
+    margin-inline: auto;
+}

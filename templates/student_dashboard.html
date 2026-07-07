@@ -1,0 +1,139 @@
+{% extends 'base_student.html' %}
+{% block content %}
+
+
+<title>Student Dashboard - Student Hostel</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/student_dashboard.css') }}">
+
+<div class="dashboard-top-grid">
+  <div class="dashboard-main-col">
+    <h1>Welcome, {{ session.get('name', 'Student') }}</h1>
+    <p class="tagline">Here's what's happening with your stay</p>
+
+
+      {% if checkout_message %}
+    <div class="checkout-message">
+        <i class="fas fa-circle-check"></i>
+        <span>{{ checkout_message }}</span>
+    </div>
+    {% endif %}
+
+
+    <ul class="status-list">
+        {% if booking %}
+        <li>
+            <span class="status-label">Room</span>
+            <span class="status-value">{{ booking['room_number'] or 'Not assigned' }}</span>
+        </li>
+        <li>
+            <span class="status-label">Booking status</span>
+            <span class="status-value">{{ booking['booking_status'] }}</span>
+        </li>
+        {% else %}
+        <li>
+            <span class="status-label">Room</span>
+            <span class="status-value">No active booking</span>
+        </li>
+        {% endif %}
+        <li>
+            <span class="status-label">Outstanding payment</span>
+            <span class="status-value{% if outstanding > 0 %} status-due{% endif %}">
+                RM {{ "%.2f"|format(outstanding) }}
+            </span>
+        </li>
+    </ul>
+
+    <div class="cards">
+        <a href="{{ url_for('room_booking') }}" class="card-link card-rooms">
+            <div class="card">
+                <div class="card-img">
+                    <img src="{{ url_for('static', filename='images/house-icon.png') }}" alt="View Booked Rooms">
+                </div>
+                <div class="card-body">
+                    <p>View Booked Rooms</p>
+                    <span class="card-desc">Check your current room and booking details</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="{{ url_for('payment_history') }}" class="card-link card-payment">
+            <div class="card">
+                <div class="card-img">
+                    <img src="{{ url_for('static', filename='images/payment.png') }}" alt="Payment History">
+                </div>
+                <div class="card-body">
+                    <p>Payment History</p>
+                    <span class="card-desc">View past payments and outstanding fines</span>
+                </div>
+            </div>
+        </a>
+
+        <a href="{{ url_for('maintenance_request') }}" class="card-link card-maintenance">
+            <div class="card">
+                <div class="card-img">
+                    <img src="{{ url_for('static', filename='images/settings-line-icon.png') }}" alt="Maintenance Request">
+                </div>
+                <div class="card-body">
+                    <p>Maintenance Request</p>
+                    <span class="card-desc">Report an issue with your room or facilities</span>
+                </div>
+            </div>
+        </a>
+    </div>
+  </div>
+
+  <aside class="dashboard-side-col">
+    <section class="notifications">
+        <div class="notifications-header">
+            <h3><i class="fas fa-bell"></i> Notifications</h3>
+        </div>
+
+        {% if notifications %}
+            {% for n in notifications %}
+            <div class="notification-box alert-{{ n.category }} {{ 'is-unread' if n.is_read == 0 else 'is-read' }}">
+                {% if n.is_read == 0 %}<span class="unread-dot"></span>{% endif %}
+                <span class="notification-message">{{ n.message }}</span>
+                <span class="notification-time">{{ n.created_at }}</span>
+                <form method="POST" action="{{ url_for('dismiss_notification', notification_id=n.notification_id) }}" class="notification-dismiss-form">
+                    <button type="submit" class="notification-dismiss-btn" aria-label="Dismiss">&times;</button>
+                </form>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="notification-box empty">
+                <p class="notification-message text-muted">No notifications yet.</p>
+            </div>
+        {% endif %}
+    </section>
+  </aside>
+</div>
+
+
+<!-- Announcements Section - Lower with more spacing -->
+<section class="announcements">
+    <div class="announcement-header">
+        <h3><i class="fas fa-bullhorn"></i> Announcements</h3>
+        <a href="{{ url_for('student_announcements') }}" class="view-more">
+            View All Announcements →
+        </a>
+    </div>
+
+    {% if announcements %}
+        {% for announcement in announcements %}
+        <div class="announcement-box">
+            <div class="announcement-title">{{ announcement.title }}</div>
+            <p class="announcement-details">{{ announcement.details }}</p>
+            <div class="announcement-date">{{ announcement.date }}</div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <div class="announcement-box">
+            <p class="announcement-details">No announcements.</p>
+        </div>
+    {% endif %}
+</section>
+
+
+
+{% endblock %}
+
