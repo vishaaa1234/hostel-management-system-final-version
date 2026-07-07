@@ -40,9 +40,9 @@ DATABASE = "dbsystem.db"
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USERNAME'] = 'hostelsystem25@gmail.com'
+app.config['MAIL_USERNAME'] = 'ahahsahsduh@gmail.com'
 app.config['MAIL_PASSWORD'] = 'gisyhwbnatiaolsw'
-app.config['MAIL_DEFAULT_SENDER'] = 'Hostel Management', 'hostelsystem25@gmail.com'
+app.config['MAIL_DEFAULT_SENDER'] = 'Hostel Management', 'jhduhediuhdu@gmail.com'
 app.config['APP_BASE_URL'] = 'http://127.0.0.1:5002'
 
 mail = Mail(app)
