@@ -27,7 +27,7 @@ load_dotenv()
 from groq import Groq
 
 groq_client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
-   # reject uploads over 5 MB
+   
 
 
 app = Flask(__name__)
@@ -46,15 +46,6 @@ reset_serializer = URLSafeTimedSerializer(app.config['SECRET_KEY'])
 
 DATABASE = "dbsystem.db"
 
-# one-time migration: soft-delete column for Rooms
-try:
-    _mconn = sqlite3.connect('dbsystem.db')
-    _mconn.execute("ALTER TABLE Rooms ADD COLUMN is_deleted INTEGER DEFAULT 0")
-    _mconn.commit()
-    _mconn.close()
-except sqlite3.OperationalError:
-    pass  # column already exists
-
 
 #--- Email(GmailSMTP) config - --
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
@@ -67,7 +58,7 @@ app.config['APP_BASE_URL'] = 'http://127.0.0.1:5002'
 
 mail = Mail(app)
 
-# Category mapping on
+
 CATEGORY_PRIORITY = {
     "Fire Safety / Smoke Detector": "High",
     "Gas Leak": "High",
