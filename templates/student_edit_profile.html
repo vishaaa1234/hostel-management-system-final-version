@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Edit Profile - Student Hostel</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/register.css') }}">
+</head>
+<body>
+
+{% extends 'base_student.html' %}
+{% block content %}
+
+<div class="container py-8">
+
+    <!-- Page Header - Consistent with maintenance request -->
+    <div class="page-header mb-4">
+        <h4>
+            Manage Profile</h4>
+        <p>Update your personal information.</p>
+                <!-- Line below header -->
+        <div class="header-divider"></div>
+    </div>
+    <div class="register-card">
+        <h2>Edit Profile</h2>
+
+        {% if message %}
+        <p class="{{ 'success-msg' if success else 'error-msg' }}">{{ message }}</p>
+        {% endif %}
+
+        <form method="POST" action="{{ url_for('student_edit_profile') }}">
+
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" placeholder="Full Name"
+                       value="{{ student['name'] or '' }}">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Email:</label>
+                <input type="email" id="email" name="email" value="{{ student['email'] or '' }}" disabled>
+            </div>
+
+            <div class="form-group">
+                <label for="phone_number">Phone Number:</label>
+                <input type="tel" id="phone_number" name="phone_number" placeholder="Phone number"
+                       value="{{ student['phone_number'] or '' }}">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Gender</label>
+                <input type="text" class="form-control" value="{{ student['gender'] or '' }}" disabled>
+            </div>
+           <div class="form-group">
+                <label class="form-label">Date of Birth</label>
+                <input type="text" class="form-control" value="{{ student['date_of_birth'] }}" disabled>
+           </div>
+
+           <div class="form-group">
+                <label for="programme">Programme:</label>
+                <select id="programme" name="programme" class="form-control">
+                    <option value="">Select Your Programme</option>
+                    <option value="Computer Science" {% if form_data.get('programme') == 'Computer Science' %}selected{% endif %}>Computer Science</option>
+                    <option value="Information Technology" {% if form_data.get('programme') == 'Information Technology' %}selected{% endif %}>Information Technology</option>
+                    <option value="Software Engineering"{% if form_data.get('programme') == 'Software Engineering' %}selected{% endif %}>Software Engineering</option>
+                    <option value="Business Administration" {% if form_data.get('programme') == 'Business Administration' %}selected{% endif %}>Business Administration</option>
+                    <option value="Accounting" {% if form_data.get('programme') == 'Accounting' %}selected{% endif %}>Accounting</option>
+                    <option value="Finance" {% if form_data.get('programme') == 'Finance' %}selected{% endif %}>Finance</option>
+                    <option value="Marketing" {% if form_data.get('programme') == 'Marketing' %}selected{% endif %}>Marketing</option>
+                    <option value="Human Resource Management" {% if form_data.get('programme') == 'Human Resource Management' %}selected{% endif %}>Human Resource Management</option>
+                    <option value="Civil Engineering"{% if form_data.get('programme') == 'Civil Engineering' %}selected{% endif %}>Civil Engineering</option>
+                    <option value="Mechanical Engineering" {% if form_data.get('programme') == 'Mechanical Engineering' %}selected{% endif %}>Mechanical Engineering</option>
+                    <option value="Electrical Engineering" {% if form_data.get('programme') == 'Electrical Engineering' %}selected{% endif %}>Electrical Engineering</option>
+                    <option value="Electronic Engineering" {% if form_data.get('programme') == 'Electronic Engineering' %}selected{% endif %}>Electronic Engineering</option>
+                    <option value="Architecture" {% if form_data.get('programme') == 'Architecture' %}selected{% endif %}>Architecture</option>
+                    <option value="Nursing" {% if form_data.get('programme') == 'Nursing' %}selected{% endif %}>Nursing</option>
+                    <option value="Pharmacy" {% if form_data.get('programme') == 'Pharmacy' %}selected{% endif %}>Pharmacy</option>
+                    <option value="Hospitality Management" {% if form_data.get('programme') == 'Hospitality Management' %}selected{% endif %}>Hospitality Management</option>
+                    <option value="Mass Communication" {% if form_data.get('programme') == 'Mass Communication' %}selected{% endif %}>Mass Communication</option>
+                    <option value="Psychology" {% if form_data.get('programme') == 'Psychology' %}selected{% endif %}>Psychology</option>
+                    <option value="Education" {% if form_data.get('programme') == 'Education' %}selected{% endif %}>Education</option>
+
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+                <label for="year_of_study">Year of study:</label>
+                <select id="year_of_study" name="year_of_study" class="form-control">
+                    <option value="">Select year of study</option>
+                    <option value="1" {% if student['year_of_study']|string == '1' %}selected{% endif %}>Year 1</option>
+                    <option value="2" {% if student['year_of_study']|string == '2' %}selected{% endif %}>Year 2</option>
+                    <option value="3" {% if student['year_of_study']|string == '3' %}selected{% endif %}>Year 3</option>
+                    <option value="4" {% if student['year_of_study']|string == '4' %}selected{% endif %}>Year 4</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="address">Home address:</label>
+                <textarea id="address" name="address" placeholder="Full address"
+                          rows="3">{{ student['address'] or '' }}</textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="emergency_contact">Emergency Contact:</label>
+                <input type="text" id="emergency_contact" name="emergency_contact" placeholder="Emergency contact"
+                       value="{{ student['emergency_contact'] or '' }}">
+            </div>
+
+            <hr class="section-divider">
+            <p class="section-label">Change password or Leave password fields blank to keep your current password.</p>
+
+            <div class="form-group">
+                <label for="current_password">Current Password:</label>
+                <input type="password" id="current_password" name="current_password"
+                       placeholder="Enter current password">
+            </div>
+
+            <div class="form-group">
+                <label for="new_password">New Password:</label>
+                <input type="password" id="new_password" name="new_password"
+                       placeholder="Leave blank to keep current">
+            </div>
+
+            <div class="form-group">
+                <label for="confirm_password">Confirm Password:</label>
+                <input type="password" id="confirm_password" name="confirm_password"
+                       placeholder="Confirm new password">
+            </div>
+
+            <div class="form-submit">
+                <button type="submit" class="register-btn">
+                    Save Changes
+                </button>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+{% endblock %}

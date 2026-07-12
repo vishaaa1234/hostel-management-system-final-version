@@ -1,0 +1,96 @@
+{% extends 'base_warden.html' %}
+{% block content %}
+
+<div class="container py-4">
+
+    <div class="page-header-wrapper mb-4">
+        <div class="page-header">
+            <h4>Registered Student List</h4>
+
+        </div>
+        <div class="header-divider"></div>
+    </div>
+
+    <div class="table-card">
+        <div class="table-header">
+            <h6 class="table-header-title">Student List</h6>
+            <form method="GET" action="{{ url_for('warden_view_students') }}" class="search-form">
+                <input type="text" name="q" value="{{ search or '' }}"
+                       placeholder="Search by name or room number..." class="search-input">
+                <button type="submit" class="btn-action primary">
+                    <i class="fas fa-search"></i> Search
+                </button>
+                {% if search %}
+                <a href="{{ url_for('warden_view_students') }}" class="btn-action">Clear</a>
+                {% endif %}
+            </form>
+        </div>
+        <div class="table-responsive">
+            <table class="table maintenance-table mb-0">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Full Name</th>
+                        <th>Email</th>
+                        <th>Contact</th>
+                        <th>Date of Birth</th>
+                        <th>Gender</th>
+                        <th>Address</th>
+                        <th>Programme</th>
+                        <th>Status</th>
+                        <th>Action</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in students %}
+                    <tr>
+                        <td><strong>#{{ user['display_id'] }}</strong></td>
+                        <td>{{ user['name'] }}</td>
+                        <td>{{ user['email'] }}</td>
+                        <td>{{ user['phone_number'] }}</td>
+                        <td>{{ user['date_of_birth'] }}</td>
+                        <td>{{ user['gender'] }}</td>
+                        <td>{{ user['address'] }}</td>
+                        <td>{{ user['programme'] or '—' }}</td>
+                        <td>
+                            {% if user['user_status'] == 'pending' %}
+                                <span class="badge-pending">Pending</span>
+                            {% elif user['user_status'] == 'approved' %}
+                                <span class="badge-approved">Approved</span>
+                            {% elif user['user_status'] == 'rejected' %}
+                                <span class="badge-rejected">Rejected</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <div class="actions">
+                                <a href="{{ url_for('warden_view_student_details', user_id=user['user_id']) }}"
+                                   class="btn-action primary">
+                                    <i class="fas fa-eye"></i> View
+                                </a>
+
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+
+                    {% if not students %}
+                    <tr>
+                        <td colspan="7" class="text-center text-muted py-4">
+                            <i class="fas fa-users" style="font-size:2rem;color:#ccc;display:block;margin-bottom:8px;"></i>
+                            {% if search %}
+                                No students found matching "{{ search }}"
+                            {% else %}
+                                No students registered yet
+                            {% endif %}
+                            No students registered yet
+                        </td>
+                    </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,82 @@
+{% extends 'base_warden.html' %}
+{% block content %}
+
+    <!-- Your CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/payment_fine.css') }}">
+
+
+<body>
+
+
+<div class="container py-4">
+
+    <!-- Header -->
+    <div class="page-header mb-4">
+        <h4>Payment Fine</h4>
+        <p>View and manage payment fines.</p>
+    </div>
+
+    <!-- Fine List (accordion style, details always visible) -->
+    <div class="widgets-header mb-3">
+        <h6 class="mb-0">Fine Records</h6>
+    </div>
+
+    {% if fines %}
+    <div class="fine-list mb-4">
+
+        {% for fine in fines %}
+        <div class="fine-item {{ 'paid' if fine.fine_status == 'paid' else 'unpaid' }}">
+
+            <div class="fine-item-head">
+                <span class="fine-item-title">
+                    <span class="status-dot"></span>
+                    Fine #{{ fine.fine_id }} &mdash; {{ fine.fine_type }}
+                </span>
+
+                <span class="fine-item-meta">
+                    <span class="fine-amount">RM {{ "%.2f"|format(fine.amount) }}</span>
+                    {% if fine.fine_status == 'paid' %}
+                        <span class="badge-paid">Paid</span>
+                    {% elif session.get('role') == 'warden' %}
+                        <span class="badge-awaiting">Awaiting online payment</span>
+                    {% else %}
+                        <span class="badge-unpaid">Unpaid</span>
+                    {% endif %}
+                </span>
+            </div>
+
+            <div class="fine-item-detail">
+                <div><span class="detail-label">Student</span> {{ fine.student_name }}</div>
+                <div><span class="detail-label">Room</span> {{ fine.room_number }}</div>
+                <div><span class="detail-label">Fine Type</span> {{ fine.fine_type }}</div>
+                <div><span class="detail-label">Issued Date</span> {{ fine.issued_date }}</div>
+                <div class="full"><span class="detail-label">Reason</span> {{ fine.reason }}</div>
+
+                {% if fine.fine_status != 'paid' and session.get('role') == 'student' %}
+                <div class="full">
+                    <a href="{{ url_for('pay_fine_form', fine_id=fine.fine_id) }}" class="btn-pay">Pay Now</a>
+                </div>
+                {% endif %}
+            </div>
+
+        </div>
+        {% endfor %}
+
+    </div>
+    {% else %}
+    <div class="table-card mb-4">
+        <p class="text-center text-muted py-4 mb-0">No fines recorded.</p>
+    </div>
+    {% endif %}
+
+
+    {% if session.get('role') == 'warden' %}
+    <div class="text-center mb-4">
+        <a href="{{ url_for('issue_fine_form') }}" class="btn-issue">+ Issue Fine</a>
+    </div>
+    {% endif %}
+
+
+
+</div>
+{% endblock %}

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Payment History</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/payment_history.css') }}">
+</head>
+
+<body>
+{% extends 'base_student.html' %}
+{% block content %}
+
+<div class="container py-4">
+
+    <!-- Header -->
+    <div class="page-header mb-4">
+        <h4>Payment History</h4>
+        <p>View your payment status, history, and any outstanding fines.</p>
+    </div>
+
+    <!-- Summary Cards -->
+    <div class="row g-3 mb-4">
+
+        <div class="col-md-4">
+            <div class="summary-card">
+                <h6>Last Payment</h6>
+                <p class="amount">RM {{ "%.2f"|format(last_payment.amount) if last_payment else '0.00' }}</p>
+                <span class="text-muted">
+                    {{ last_payment.date if last_payment else 'No payment yet' }}
+                </span>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="summary-card highlight">
+                <h6>Next Payment</h6>
+                <p class="amount">RM {{ "%.2f"|format(next_payment.amount) }}</p>
+                <span class="text-muted">Due: {{ next_payment.due_date }}</span>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="summary-card danger">
+                <h6>Outstanding</h6>
+                <p class="amount">RM {{ "%.2f"|format(outstanding) }}</p>
+                <span class="text-muted">Remaining balance</span>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Payment Table -->
+    <div class="table-card mb-4">
+
+        <div class="table-header">
+            <h6>Payment Records</h6>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table payment-table mb-0">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Room</th>
+                        <th>Amount</th>
+                        <th>Date Paid</th>
+                        <th>Status</th>
+                        <th>Receipt</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for p in payments %}
+                    <tr>
+                        <td>{{ p.id }}</td>
+                        <td>Room {{ p.room_number }}</td>
+                        <td>RM {{ "%.2f"|format(p.amount) }}</td>
+                        <td>{{ p.date_paid }}</td>
+                        <td>
+                            {% if p.payment_status == 'Paid' %}
+                                <span class="badge-paid">Paid</span>
+                            {% else %}
+                                <span class="badge-unpaid">Unpaid</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if p.payment_status == 'Paid' %}
+                                <a href="{{ url_for('download_receipt', booking_id=p.id) }}" class="btn-receipt">
+                                    <i class="bi bi-file-earmark-pdf me-1"></i>Download PDF
+                                </a>
+                            {% else %}
+                                <span class="text-muted">—</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="6" class="text-center text-muted py-4">
+                            No payment records found
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <!-- Fines Table -->
+    <div class="table-card">
+
+        <div class="table-header d-flex justify-content-between align-items-center">
+            <h6>My Fines</h6>
+            {% if fines %}
+            <span class="fine-count">{{ fines|length }} fine{{ 's' if fines|length != 1 else '' }}</span>
+            {% endif %}
+        </div>
+
+        <div class="table-responsive">
+            <table class="table fine-table mb-0">
+                <thead>
+                    <tr>
+                        <th>Fine ID</th>
+                        <th>Room</th>
+                        <th>Fine</th>
+                        <th>Reason</th>
+                        <th>Amount</th>
+                        <th>Issued Date</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for fine in fines %}
+                    <tr>
+                        <td>#{{ fine['fine_id'] }}</td>
+                        <td>{{ 'Room ' + fine['room_number'] if fine['room_number'] else '—' }}</td>
+                        <td>{{ fine['fine_type'] }}</td>
+                        <td>{{ fine['reason'] }}</td>
+                        <td>RM {{ "%.2f"|format(fine['amount']) }}</td>
+                        <td>{{ fine['issued_date'] }}</td>
+                        <td>
+                            {% if fine['fine_status'] == 'paid' %}
+                                <span class="badge-paid">Paid</span>
+                            {% else %}
+                                <span class="badge-fine">Pending</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if fine['fine_status'] != 'paid' %}
+                            <a href="{{ url_for('pay_fine_form', fine_id=fine['fine_id']) }}" class="btn-pay-fine">Pay Now</a>
+                            {% else %}
+                                <span class="text-muted">—</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="7" class="text-center text-muted py-4">
+                            No fines on your account
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>
+
+{% endblock %}

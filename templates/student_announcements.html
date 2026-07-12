@@ -1,0 +1,44 @@
+{% extends "base_student.html" %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/student_announcement.css') }}">
+
+<div class="container py-4">
+
+    <!-- Page Header -->
+    <div class="page-header-wrapper mb-4">
+        <div class="page-header">
+            <h4>Announcements</h4>
+            <p>Stay up to date with the latest hostel notices.</p>
+        </div>
+        <div class="header-divider"></div>
+    </div>
+
+    <!-- Announcement List -->
+    {% if announcements %}
+        {% for announcement in announcements %}
+        <div class="announcement-card">
+            <div class="announcement-title">{{ announcement.title }}</div>
+            <div class="announcement-body">{{ announcement.details }}</div>
+            <div class="announcement-meta">
+                <span class="meta-item">
+                    <i class="fas fa-user"></i>
+                    {{ announcement.poster_name.split()[0] if announcement.poster_name else "Warden" }}
+                </span>
+                <span class="meta-item">
+                    <i class="fas fa-calendar-alt"></i>
+                    {{ announcement.date }}
+                </span>
+            </div>
+        </div>
+        {% endfor %}
+
+    {% else %}
+        <div class="empty-state">
+            <i class="fas fa-bullhorn"></i>
+            <p>No announcements available at the moment.</p>
+        </div>
+    {% endif %}
+
+</div>
+{% endblock %}

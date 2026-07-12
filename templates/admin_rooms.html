@@ -1,0 +1,128 @@
+{% extends 'base_admin.html' %}
+{% block content %}
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin_rooms.css') }}">
+
+<h1>
+   Manage Rooms
+</h1>
+
+<!-- Quick Stats - Matching Dashboard Style -->
+<div class="quick-stats" id="quickStats">
+    <div class="stat-box">
+        <div class="number">{{ rooms|length }}</div>
+        <div class="label">
+          Total Rooms
+        </div>
+    </div>
+    <div class="stat-box">
+        <div class="number">{{ rooms|selectattr('room_status', 'equalto', 'Available')|list|length }}</div>
+        <div class="label">
+            Available
+        </div>
+    </div>
+    <div class="stat-box">
+        <div class="number">{{ rooms|selectattr('room_status', 'equalto', 'Occupied')|list|length }}</div>
+        <div class="label">
+            Occupied
+        </div>
+    </div>
+    <div class="stat-box">
+        <div class="number">{{ rooms|sum(attribute='bed_capacity') }}</div>
+        <div class="label">
+           Total Beds
+        </div>
+    </div>
+</div>
+
+<!-- Page Header with Add Button -->
+<div class="page-header">
+    <h4>
+        <i class="fas fa-list"></i> Room List
+    </h4>
+    <a href="{{ url_for('add_room') }}" class="btn-add">
+        <i class="fas fa-plus-circle"></i> Add New Room
+    </a>
+</div>
+
+<!-- Flash messages -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert-msg {{ 'success' if category == 'success' else 'danger' }}">
+            <i class="fas fa-{% if category == 'success' %}check-circle{% else %}exclamation-circle{% endif %}"></i>
+            {{ message }}
+        </div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+<!-- Room List -->
+<div class="table-card">
+    <div class="table-title">
+         All Rooms
+    </div>
+
+    {% if rooms %}
+    <table class="rooms-table">
+        <thead>
+            <tr>
+                <th> Room No.</th>
+                <th> Type</th>
+                <th> Gender</th>
+                <th>Capacity</th>
+                <th>Available Beds</th>
+                <th> Price/Month</th>
+                <th> Details</th>
+                <th> Status</th>
+                <th> Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for room in rooms %}
+            <tr>
+                <td><strong>{{ room.room_number }}</strong></td>
+                <td>{{ room.room_type }}</td>
+                <td>{{ room.gender or 'N/A' }}</td>
+                <td>{{ room.bed_capacity }}</td>
+                <td class="{{ 'text-danger' if room.available_beds == 0 }}">
+                    {{ room.available_beds }}
+                </td>
+                <td>RM {{ "%.2f"|format(room.price_per_month) }}</td>
+                <td>{{ room.room_details }}</td>
+                <td>
+                    {% if room.room_status == 'Available' %}
+                        <span class="badge-available">
+                            <i class="fas fa-check-circle"></i> Available
+                        </span>
+                    {% else %}
+                        <span class="badge-occupied">
+                            <i class="fas fa-times-circle"></i> Occupied
+                        </span>
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="{{ url_for('edit_room', room_id=room.room_id) }}" class="btn-edit">
+                        <i class="fas fa-edit"></i> Edit
+                    </a>
+                    <form method="POST" action="{{ url_for('delete_room', room_id=room.room_id) }}"
+                          onsubmit="return confirm('Delete Room {{ room.room_number }}?');"
+                          style="display:inline;">
+                        <button type="submit" class="btn-delete">
+                            <i class="fas fa-trash-alt"></i> Delete
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div class="empty-msg">
+        <i class="fas fa-inbox"></i>
+        <p>No rooms added yet. Click "Add New Room" to get started.</p>
+    </div>
+    {% endif %}
+</div>
+
+{% endblock %}

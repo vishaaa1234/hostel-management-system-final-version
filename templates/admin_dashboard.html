@@ -1,0 +1,119 @@
+{% extends 'base_admin.html' %}
+{% block content %}
+
+<h1>
+ Welcome, {{ session.get('name', 'Admin') }}
+</h1>
+
+<!-- Quick Stats -->
+<div class="quick-stats" id="quickStats">
+    <div class="stat-box">
+        <div class="number" id="totalStudents">{{ total_students or 0 }}</div>
+        <div class="label">
+            Total Students
+        </div>
+    </div>
+    <div class="stat-box">
+        <div class="number" id="totalRooms">{{ total_rooms or 0 }}</div>
+        <div class="label">
+            Total Rooms
+        </div>
+    </div>
+    <div class="stat-box">
+        <div class="number" id="totalBookings">{{ total_bookings or 0 }}</div>
+        <div class="label">
+             Total Bookings
+        </div>
+    </div>
+    <div class="stat-box">
+        <div class="number" id="pendingApprovals">{{ pending_approvals or 0 }}</div>
+        <div class="label">
+             Pending Approvals
+        </div>
+    </div>
+</div>
+
+<!-- Management Cards -->
+<div class="cards">
+
+    <!-- Row 1 (3 cards) -->
+    <div class="card-row">
+
+        <!-- Warden Management -->
+        <div class="card">
+            <div class="card-img warden-img">
+                <i class="fas fa-user-tie"></i>
+            </div>
+            <div class="card-body">
+                <p>Warden Management</p>
+                <a href="{{ url_for('warden_registration') }}" class="card-btn">
+                    Register Warden
+                </a>
+                <a href="{{ url_for('view_wardens') }}" class="card-btn">
+                    View Wardens
+                </a>
+            </div>
+        </div>
+
+        <!-- Student Management -->
+        <div class="card">
+            <div class="card-img student-img">
+                <i class="fas fa-user-graduate"></i>
+            </div>
+            <div class="card-body">
+                <p>Student Management</p>
+                <a href="{{ url_for('view_students') }}" class="card-btn">
+                    View Students
+                </a>
+            </div>
+        </div>
+
+        <!-- Room Management -->
+        <div class="card">
+            <div class="card-img room-img">
+                <i class="fas fa-bed"></i>
+            </div>
+            <div class="card-body">
+                <p>Room Management</p>
+                <a href="{{ url_for('admin_rooms') }}" class="card-btn">
+                    Manage Rooms
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Row 2 (2 cards) -->
+    <div class="card-row">
+
+        <!-- Booking -->
+        <div class="card">
+            <div class="card-img booking-img">
+                <i class="fas fa-calendar-check"></i>
+            </div>
+            <div class="card-body">
+                <p>Room Booking</p>
+                <a href="{{ url_for('manage_booking') }}" class="card-btn">
+                    Manage Bookings
+                </a>
+            </div>
+        </div>
+
+        <!-- Reports -->
+        <div class="card">
+            <div class="card-img reports-img">
+                <i class="fas fa-chart-pie"></i>
+            </div>
+            <div class="card-body">
+                <p>Reports & Analytics</p>
+                <a href="{{ url_for('admin_reports') }}" class="card-btn">
+                    View Reports
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

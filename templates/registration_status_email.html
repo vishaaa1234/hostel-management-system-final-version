@@ -1,0 +1,25 @@
+<html>
+<body style="font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px;">
+    <div style="max-width: 500px; margin: auto; background: white; border-radius: 10px; padding: 30px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+        <h2 style="color: #333;">Hostel Registration Update</h2>
+        <p>Hi {{ student_name }},</p>
+        <p style="font-size: 16px;">
+            Status: <span style="color: {{ status_color }}; font-weight: bold;">{{ status_text }}</span>
+        </p>
+        <p>{{ message_body }}</p>
+        <div style="text-align: center; margin: 30px 0;">
+            <a href="{{ login_url }}"
+               style="background-color: #6C5CE7; color: white; padding: 12px 28px;
+                      text-decoration: none; border-radius: 6px; font-weight: bold; display: inline-block;">
+                Go to Student Portal
+            </a>
+        </div>
+        <p style="font-size: 13px; color: #999;">
+            If the button doesn't work, copy and paste this link into your browser:<br>
+            {{ login_url }}
+        </p>
+        <hr style="border: none; border-top: 1px solid #eee; margin: 20px 0;">
+        <p style="font-size: 13px; color: #999;">Hostel Management Team</p>
+    </div>
+</body>
+</html>

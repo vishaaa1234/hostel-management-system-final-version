@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Warden · Manage Announcements</title>
+    <!-- Font Awesome (free) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/warden_announcement.css') }}">
+
+</head>
+<body>
+<div class="container">
+
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="flash-message {% if category == 'danger' %}danger{% endif %}">
+                    <i class="fas {% if category == 'success' %}fa-check-circle{% elif category == 'danger' %}fa-exclamation-circle{% else %}fa-info-circle{% endif %}"></i>
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="flash-message">
+                <i class="fas fa-check-circle"></i> Welcome, Warden — you can post and manage announcements.
+            </div>
+        {% endif %}
+    {% endwith %}
+
+
+    <div class="page-header-wrapper">
+        <div class="page-header">
+            <h4>
+                <i class="fas fa-bullhorn"></i> Announcements
+                <span class="warden-tag" style="margin-left: 8px;">warden</span>
+            </h4>
+            <p>Post important notices for all hostel residents.</p>
+        </div>
+        <div class="header-divider"></div>
+    </div>
+
+
+    <div class="post-card">
+        <div class="form-title">
+            <i class="fas fa-pen-fancy"></i> New announcement
+        </div>
+        <form action="{{ url_for('add_announcement') }}" method="POST">
+            <div class="form-group">
+                <label for="title"><i class="fas fa-heading" style="margin-right: 4px;"></i> Title</label>
+                <input type="text" id="title" name="title" placeholder="e.g. Weekend power shutdown" required>
+            </div>
+            <div class="form-group">
+                <label for="message"><i class="fas fa-align-left" style="margin-right: 4px;"></i> Message</label>
+                <textarea id="message" name="message" placeholder="Write the full announcement details..." required></textarea>
+            </div>
+            <button type="submit" class="btn-post">
+                <i class="fas fa-paper-plane"></i> Publish announcement
+            </button>
+        </form>
+    </div>
+
+
+    {% if announcements %}
+        {% for announcement in announcements %}
+            <div class="announcement-card">
+                <div class="announcement-title">{{ announcement.title }}</div>
+                <div class="announcement-body">{{ announcement.details }}</div>
+                <div class="announcement-meta">
+                    <span class="meta-item">
+                        <i class="fas fa-user"></i>
+                        {{ announcement.posted_by if announcement.posted_by else 'Warden' }}
+                    </span>
+                    <span class="meta-item">
+                        <i class="fas fa-calendar-alt"></i>
+                        {{ announcement.date }}
+                    </span>
+                </div>
+                <!-- warden delete button -->
+                <a href="{{ url_for('delete_announcement', announcement_id=announcement.announcement_id) }}"
+                   class="delete-btn"
+                   onclick="return confirm('Delete this announcement permanently?')"
+                   title="Delete announcement">
+                    <i class="fas fa-trash-alt"></i>
+                </a>
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="empty-state">
+            <i class="fas fa-bullhorn"></i>
+            <p>No announcements available at the moment.</p>
+        </div>
+    {% endif %}
+
+</div>
+</body>
+</html>

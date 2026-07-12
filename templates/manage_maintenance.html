@@ -1,0 +1,120 @@
+{% extends 'base_warden.html' %}
+{% block content %}
+    <title>Maintenance Management</title>
+
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/maintenance_management.css') }}">
+
+
+<body>
+
+
+
+<div class="container py-4">
+
+    <div class="page-header mb-4">
+        <h4>Maintenance Management</h4>
+        <p>Track and manage room maintenance requests.</p>
+    </div>
+
+    <div class="table-card">
+
+        <div class="table-header">
+            <h6>All Requests</h6>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table maintenance-table mb-0">
+
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Room</th>
+                        <th>Category</th>
+                        <th>Issue</th>
+                        <th>Photo</th>
+                        <th>priority</th>
+                        <th>Reported By</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for m in maintenance %}
+                    <tr>
+                        <td>{{ m.id }}</td>
+                        <td>Room {{ m.room_number }}</td>
+                        <td>{{ m.category }}</td>
+                        <td>{{ m.description }}</td>
+                        <td>
+                            {% if m.image_filename %}
+                                <a href="{{ url_for('static', filename='uploads/maintenance/' ~ m.image_filename) }}" target="_blank"
+                                   title="Click to view full size">
+                                    <img src="{{ url_for('static', filename='uploads/maintenance/' ~ m.image_filename) }}"
+                                         alt="Issue photo" style="width:70px; height:52px; object-fit:cover; border-radius:6px;">
+                                </a>
+                            {% else %}
+                                <span class="text-muted">—</span>
+                            {% endif %}
+                        </td>
+                       <td>
+                            <span class="badge-priority-{{ m.priority|lower }}">
+                                {{ m.priority }}
+                            </span>
+                       </td>
+
+
+
+                        <td>{{ m.student_name }}</td>
+                        <td>{{ m.report_date }}</td>
+
+
+
+
+
+
+
+                        <td>
+                            <span class="badge-{{ m.maintenance_status }}">
+                                {{ m.maintenance_status }}
+                            </span>
+                        </td>
+
+                        <td class="actions">
+
+                            {% if m.maintenance_status != 'completed' %}
+                            <form method="POST" action="{{ url_for('complete_maintenance', request_id=m['id']) }}">
+                                <button class="btn-action complete">Mark Done</button>
+                            </form>
+                            {% endif %}
+
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="7" class="text-center text-muted py-4">
+                            No maintenance requests
+                        </td>
+                    </tr>
+                    {% endfor %}
+
+                <form method="GET" action="{{ url_for('manage_maintenance') }}" class="search-form">
+                      <input type="text" name="q" value="{{ search or '' }}" placeholder="Search by ...">
+                     <button class ="btn-search">Search</button>
+                     {% if search %}
+                    <a href="{{ url_for('manage_maintenance') }}">Clear</a>
+                    {% endif %}
+                </form>
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+
+</div>
+
+
+
+{% endblock %}
