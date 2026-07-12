@@ -1,0 +1,49 @@
+/* payment_history.css */
+@import url('base.css');
+
+/* ── Receipt Button ── */
+.btn-receipt {
+  background: rgba(26, 79, 138, 0.10);
+  color: #1a4f8a;
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 5px 12px;
+  border-radius: 6px;
+  text-decoration: none;
+  border: 1.5px solid rgba(26, 79, 138, 0.20);
+  transition: background 0.2s;
+  display: inline-block;
+}
+
+.btn-receipt:hover {
+  background: rgba(26, 79, 138, 0.18);
+  color: #1a4f8a;
+}
+
+/* ── Pay Fine Button ── */
+.btn-pay-fine {
+  background: #842029;
+  color: #ffffff;
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 5px 14px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.btn-pay-fine:hover {
+  background: #6a1a20;
+  transform: translateY(-1px);
+}
+
+/* ── Fine Count Label ── */
+.fine-count {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #4a6580;
+  background: rgba(173, 210, 240, 0.30);
+  padding: 3px 12px;
+  border-radius: 50px;
+}

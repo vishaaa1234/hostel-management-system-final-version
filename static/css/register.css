@@ -1,0 +1,291 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #F8FAFC;
+  min-height: 100vh;
+}
+
+.page-header h1 {
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: #1a1a2e;
+  margin-bottom: 6px;
+}
+
+.page-header h1 {
+    font-weight: 500;
+    color: #1a1a2e;
+    font-size: 1.0rem;
+    letter-spacing: -0.3px;
+    margin-bottom: 4px;
+}
+
+.header-divider {
+    margin-top: 1.25rem;
+    border-bottom: 2px solid rgba(188, 170, 228, 0.4);
+
+}
+
+/* ── Navbar ── */
+.navbar {
+  background-color: #1E3A5F;
+  padding: 14px 28px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  z-index: 100;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.navbar-brand {
+  color: #ffffff;
+  font-size: 1.4rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+/* ── Register Page ── */
+.register-page {
+  display: flex;
+  justify-content: center;
+  padding: 32px 16px;
+}
+
+.register-card {
+  background: #ffffff;
+  justify-content: center;
+  border: 4px solid #ccc;
+  border-radius: 2px;
+  padding: 28px 36px;
+  width: 150%;
+  max-width: 650px;
+}
+
+.register-card h2 {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #1a1a1a;
+  margin-bottom: 20px;
+}
+
+.back-btn {
+  background: #ffffff;
+  color: #1a1a1a;
+  border: none;
+  padding: 8px 22px;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.back-btn:hover {
+  background: #c5ddf6;
+  color: #1D4ED8;
+}
+
+/* ── Form Groups ── */
+.form-group {
+  display: flex;
+  align-items: center;
+  margin-bottom: 14px;
+  gap: 11px;
+}
+
+.form-group label {
+  width: 80px;
+  font-size: 0.92rem;
+  color: #333;
+  text-align: left;
+  flex-shrink: 0;
+  line-height: 1.4;
+}
+
+.form-group input {
+  flex: 1;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 50px;
+  background-color: #edeceb;
+  font-size: 0.85rem;
+  outline: none;
+  transition: background 0.2s, box-shadow 0.2s;
+}
+
+.form-group input::placeholder {
+  font-size: 0.8rem;
+}
+
+/* ── FOCUS: Change from blue to purple ── */
+.form-group input:focus {
+  background-color: #EAF3FB ;
+  box-shadow: 0 0 0 3px #C4DDF3;
+}
+
+
+/* ── Date Input (normalize to match other fields) ── */
+.form-group input[type="date"] {
+  -webkit-appearance: none;
+  appearance: none;
+  flex: 1;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 50px;
+  background-color: #edeceb;
+  font-size: 0.85rem;
+  color: #333;
+  outline: none;
+  transition: background 0.2s, box-shadow 0.2s;
+}
+
+.form-group input[type="date"]:focus {
+  background-color:  #edeceb ;
+  box-shadow: 0 0 0 3px #c5ddf6;
+}
+
+.form-group input[type="date"]::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  opacity: 0.6;
+  filter: none;
+}
+
+.form-group input[type="date"]::-webkit-datetime-edit {
+  color: #333;
+}
+
+.form-group input[type="date"]:not(:valid)::-webkit-datetime-edit {
+  color: #1D4ED8; /* placeholder-like tone for empty mm/dd/yyyy */
+}
+
+
+/* ── Submit ── */
+.form-submit {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.register-btn {
+  background-color: #7b2d3e;
+  color: #ffffff;
+  border: none;
+  padding: 10px 28px;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.register-btn:hover {
+  background-color: #621f2e;
+}
+
+/* ── Select Dropdown ── */
+.form-group select {
+  flex: 1;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 50px;
+  background-color:#edeceb ;
+  font-size: 0.85rem;
+  outline: none;
+  appearance: none;
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s;
+}
+
+.form-group select:focus {
+  background-color: #edeceb;
+  box-shadow: 0 0 0 3px rgba #edeceb;
+}
+
+/* ── Textarea ── */
+.form-group textarea {
+  flex: 1;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 16px;
+  background-color: #edeceb;
+  font-size: 0.85rem;
+  outline: none;
+  resize: vertical;
+  font-family: inherit;
+  transition: background 0.2s, box-shadow 0.2s;
+}
+
+.form-group textarea:focus {
+  background-color: #EAF3FB;
+  box-shadow: 0 0 0 3px #C4DDF3;
+}
+
+/* ── Address Fields ── */
+.address-fields {
+  display: flex;
+  flex: 1;
+  gap: 10px;
+}
+
+.address-fields input {
+  padding: 10px 18px;
+  border: none;
+  border-radius: 50px;
+  background-color: #b8cce4;
+  font-size: 0.92rem;
+  outline: none;
+  transition: background 0.2s, box-shadow 0.2s;
+}
+
+.address-fields input:focus {
+  background-color: #EAF3FB ;
+  box-shadow: 0 0 0 3px #C4DDF3;
+}
+
+.address-fields .input-postcode {
+  width: 100px;
+}
+
+.address-fields .input-city {
+  width: 145px;
+}
+
+.address-fields .input-country {
+  width: 120px;
+}
+
+/* ── Messages ── */
+.success-msg {
+  color: green;
+  font-size: 0.9rem;
+  margin-bottom: 14px;
+  text-align: center;
+}
+
+.error-msg {
+  color: red;
+  font-size: 1.0rem;
+  margin-bottom: 14px;
+  text-align: center;
+}
+
+/* ── Edit Profile: password section ── */
+.section-divider {
+  border: none;
+  border-top: 1px solid #ddd;
+  margin: 18px 0 16px;
+}
+
+.section-label {
+  font-size: 0.9rem;
+  color: #888;
+  margin-bottom: 14px;
+  font-style: italic;
+}

@@ -1,0 +1,283 @@
+/* =========================
+   ANNOUNCEMENT PAGE WRAPPER
+   ========================= */
+
+.announcement-page {
+    background: #f5f9fe;
+    min-height: 100vh;
+    padding: 2rem 1.5rem;
+    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+}
+
+/* container */
+.announcement-page .container {
+    max-width: 820px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+/* =========================
+   PAGE HEADER
+   ========================= */
+
+.page-header-wrapper {
+    margin-bottom: 1.8rem;
+}
+
+.page-header h4 {
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: #0f2a45;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.page-header h4 i {
+    color: #1a4f8a;
+    font-size: 1.3rem;
+}
+
+.page-header p {
+    font-size: 0.95rem;
+    color: #4a6580;
+    margin: 0;
+}
+
+.header-divider {
+    margin-top: 1.5rem;
+    border-bottom: 2px solid rgba(173, 210, 240, 0.4);
+    margin-bottom: 28px;
+}
+
+/* =========================
+   POST ANNOUNCEMENT CARD
+   ========================= */
+
+.post-card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 24px 26px 26px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px rgb(236,251,233);
+    border: 1.5px solid rgb(236,251,233);
+    border-left: 6px solid #42996f;
+    transition: 0.2s;
+}
+
+.post-card:hover {
+    box-shadow: 0 6px 18px #42996f;
+}
+
+.post-card .form-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #0f2a45;
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.post-card .form-title i {
+    color: #1a4f8a;
+    font-size: 1.2rem;
+}
+
+/* form */
+.post-card form .form-group {
+    margin-bottom: 16px;
+}
+
+.post-card form label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #1f3b5c;
+    margin-bottom: 4px;
+}
+
+.post-card form input,
+.post-card form textarea {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1.5px solid #dce7f2;
+    border-radius: 10px;
+    background: #fafcff;
+    font-size: 0.95rem;
+    transition: 0.2s;
+    font-family: inherit;
+    color: #0f2a45;
+}
+
+.post-card form input:focus,
+.post-card form textarea:focus {
+    outline: none;
+    border-color: #1a4f8a;
+    background: #ffffff;
+    box-shadow: 0 0 0 4px rgba(26, 79, 138, 0.08);
+}
+
+.post-card form textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+/* button */
+.btn-post {
+    background: #42996f;
+    color: white;
+    border: none;
+    padding: 10px 28px;
+    border-radius: 30px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: 0.15s;
+    box-shadow: 0 2px 6px rgba(26, 79, 138, 0.2);
+    margin-top: 6px;
+}
+
+.btn-post:hover {
+    background: #123b66;
+    transform: translateY(-2px);
+}
+
+/* =========================
+   ANNOUNCEMENT CARD
+   ========================= */
+
+.announcement-card {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 22px 26px;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 8px rgb(236,251,233);
+    border: 1.5px solid rgb(236,251,233);
+    border-left: 5px solid #42996f;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    position: relative;
+}
+
+.announcement-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 18px rgba(26, 79, 138, 0.12);
+}
+
+.announcement-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #0f2a45;
+    margin-bottom: 10px;
+}
+
+.announcement-body {
+    font-size: 0.9rem;
+    color: #333;
+    line-height: 1.6;
+    margin-bottom: 14px;
+}
+
+/* meta */
+.announcement-meta {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    flex-wrap: wrap;
+}
+
+.meta-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.8rem;
+    color: #4a6580;
+    font-weight: 500;
+}
+
+.meta-item i {
+    color: #1a4f8a;
+}
+
+/* delete button */
+.delete-btn {
+    position: absolute;
+    top: 18px;
+    right: 20px;
+    background: transparent;
+    border: none;
+    color: #b0c8de;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: 0.15s;
+    padding: 6px 8px;
+    border-radius: 30px;
+}
+
+.delete-btn:hover {
+    color: #c62a3a;
+    background: rgba(198, 42, 58, 0.08);
+}
+
+/* =========================
+   EMPTY STATE
+   ========================= */
+
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: #4a6580;
+}
+
+.empty-state i {
+    font-size: 2.5rem;
+    color: #a8c8e8;
+    margin-bottom: 14px;
+}
+
+/* =========================
+   FLASH MESSAGES
+   ========================= */
+
+.flash-message {
+    background: #e8f1fa;
+    border-left: 5px solid #1a4f8a;
+    padding: 12px 18px;
+    border-radius: 10px;
+    color: #0f2a45;
+    font-weight: 500;
+    margin-bottom: 20px;
+}
+
+.flash-message.danger {
+    background: #fde9ec;
+    border-left-color: #b12a3a;
+}
+
+/* =========================
+   RESPONSIVE
+   ========================= */
+
+@media (max-width: 600px) {
+    .announcement-page {
+        padding: 1rem;
+    }
+
+    .post-card,
+    .announcement-card {
+        padding: 18px;
+    }
+
+    .announcement-meta {
+        gap: 12px;
+    }
+
+    .delete-btn {
+        top: 14px;
+        right: 14px;
+    }
+}

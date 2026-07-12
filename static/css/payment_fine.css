@@ -1,0 +1,181 @@
+/* payment_fine.css — accordion-list design (details always visible) */
+@import url('base.css');
+
+/* ── Issue Fine Button ── */
+.btn-issue {
+  background: #42996f;
+  color: #ffffff;
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 6px 16px;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background 0.2s, transform 0.15s;
+  display: inline-block;
+}
+
+.btn-issue:hover {
+  background: #0f6e56;
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+/* ── Pay Fine Button (student view) ── */
+.btn-pay {
+  background: #42996f;
+  color: #ffffff;
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 6px 16px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  transition: background 0.2s;
+}
+
+.btn-pay:hover {
+  background: #0f6e56;
+  color: #ffffff;
+}
+
+/* ── Widgets Header ── */
+.widgets-header h6 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin: 0;
+}
+
+/* ── Fine List (accordion style, always expanded) ── */
+.fine-list {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #d8e5da;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #ffffff;
+}
+
+.fine-item {
+  border-bottom: 1px solid #e6efe8;
+}
+
+.fine-item:last-child {
+  border-bottom: none;
+}
+
+/* ── Row Header ── */
+.fine-item-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: #ffffff;
+  flex-wrap: wrap;
+}
+
+.fine-item-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #1a1a2e;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* status dot: red = unpaid, green = paid */
+.status-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #c0392b;
+  flex-shrink: 0;
+}
+
+.fine-item.paid .status-dot {
+  background: #0f6e56;
+}
+
+.fine-item-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.fine-amount {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #1a1a2e;
+}
+
+/* ── Status Badges ── */
+.badge-paid {
+  background: #d4edda;
+  color: #1a6b2f;
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 3px 12px;
+  border-radius: 50px;
+  display: inline-block;
+}
+
+.badge-awaiting {
+  background: #fff3cd;
+  color: #856404;
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 3px 12px;
+  border-radius: 50px;
+  display: inline-block;
+}
+
+.badge-unpaid {
+  background: #f8d7da;
+  color: #842029;
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 3px 12px;
+  border-radius: 50px;
+  display: inline-block;
+}
+
+/* ── Detail Panel (always visible) ── */
+.fine-item-detail {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px 24px;
+  padding: 12px 16px 14px;
+  background: #f4f9f5;
+  border-top: 1px solid #e6efe8;
+  font-size: 0.85rem;
+  color: #3a4a3e;
+}
+
+.fine-item-detail .full {
+  grid-column: 1 / -1;
+}
+
+.detail-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #6a7a6e;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-right: 6px;
+}
+
+/* ── Responsive ── */
+@media (max-width: 576px) {
+  .fine-item-detail {
+    grid-template-columns: 1fr;
+  }
+
+  .fine-item-head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+}

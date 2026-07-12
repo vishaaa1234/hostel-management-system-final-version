@@ -1,0 +1,158 @@
+/* pay_fine_form.css */
+@import url('base.css');
+
+/* ── Order Summary Box (reused from make_payment) ── */
+.summary-box {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(6px);
+  border-radius: 14px;
+  padding: 24px 22px;
+  box-shadow: 0 4px 18px rgba(7, 31, 100, 0.09);
+  border: 1.5px solid rgba(7, 31, 100, 0.45);
+  height: 100%;
+}
+
+.summary-box h6 {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #000000;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 16px;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.88rem;
+  color: #3a3a5c;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(188, 170, 228, 0.2);
+}
+
+.summary-row:last-child {
+  border-bottom: none;
+}
+
+.summary-row.total {
+  font-weight: 700;
+  font-size: 1rem;
+  color: #4a6fa5;
+  margin-top: 4px;
+  padding-top: 12px;
+}
+
+.summary-row.total span:last-child {
+  color: #4a6fa5;
+  font-size: 1.1rem;
+}
+
+/* ── Payment Box ── */
+.payment-box {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(6px);
+  border-radius: 14px;
+  box-shadow: 0 4px 18px rgba(7, 31, 100, 0.09);
+  border: 1.5px solid rgba(7, 31, 100, 0.45);
+  overflow: hidden;
+}
+
+.payment-box-header {
+  background: #4a6fa5;
+  border-bottom: 1.5px solid rgba(188, 170, 228, 0.35);
+  padding: 14px 20px;
+}
+
+.payment-box-header h6 {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #000000;
+  margin: 0;
+}
+
+/* ── Method Section (stacked, no tabs/JS) ── */
+.method-section {
+  padding: 22px;
+  border-bottom: 1.5px solid rgba(188, 170, 228, 0.25);
+}
+
+.method-section:last-child {
+  border-bottom: none;
+}
+
+.method-heading {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin-bottom: 16px;
+}
+
+.method-heading i {
+  color: ##cfd6fa;
+  font-size: 1.05rem;
+}
+
+/* ── Pay Button ── */
+.btn-pay-now {
+  background: #4a6fa5;
+  color: #ffffff;
+  border: none;
+  padding: 12px 0;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+  display: block;
+  width: 100%;
+  text-align: center;
+}
+
+.btn-pay-now:hover {
+  background: #031157;
+  transform: translateY(-1px);
+}
+
+/* ── Gateway Note ── */
+.gateway-note {
+  font-size: 0.78rem;
+  color: #6a5a8a;
+  text-align: center;
+  margin-top: 12px;
+  margin-bottom: 0;
+}
+
+/* ── E-Wallet Options ── */
+.ewallet-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ewallet-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border: 1.5px solid #1240c3;
+  border-radius: 8px;
+  background: #cfd6fa;
+  cursor: pointer;
+  font-size: 0.88rem;
+  color: #1a1a2e;
+  font-weight: 500;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.ewallet-option:has(input:checked) {
+  border-color: #041573;
+  background: #c0c9f8;
+}
+
+.ewallet-option input[type="radio"] {
+  accent-color: #c0c9f8;
+}

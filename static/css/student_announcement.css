@@ -1,0 +1,92 @@
+/* student_announcement.css */
+
+/* ── Page Header ── */
+.page-header h4 {
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: #0f2a45;
+    margin-bottom: 6px;
+}
+
+.page-header p {
+    font-size: 0.95rem;
+    color: #4a6580;
+    margin: 0;
+}
+
+.header-divider {
+    margin-top: 1.5rem;
+    border-bottom: 2px solid rgba(173, 210, 240, 0.4);
+    margin-bottom: 28px;
+}
+
+/* ── Announcement Card ── */
+.announcement-card {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 22px 26px;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 8px rgba(26, 79, 138, 0.07);
+    border: 1.5px solid rgba(173, 210, 240, 0.45);
+    border-left: 5px solid #1a4f8a;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.announcement-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 18px rgba(26, 79, 138, 0.12);
+}
+
+.announcement-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #0f2a45;
+    margin-bottom: 10px;
+}
+
+.announcement-body {
+    font-size: 0.9rem;
+    color: #333;
+    line-height: 1.6;
+    margin-bottom: 14px;
+}
+
+/* ── Meta Row (posted by + date) ── */
+.announcement-meta {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    flex-wrap: wrap;
+}
+
+.meta-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.8rem;
+    color: #4a6580;
+    font-weight: 500;
+}
+
+.meta-item i {
+    color: #1a4f8a;
+    font-size: 0.82rem;
+}
+
+/* ── Empty State ── */
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: #4a6580;
+}
+
+.empty-state i {
+    font-size: 2.5rem;
+    color: #a8c8e8;
+    display: block;
+    margin-bottom: 14px;
+}
+
+.empty-state p {
+    font-size: 0.95rem;
+}
