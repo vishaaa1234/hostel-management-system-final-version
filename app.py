@@ -1805,10 +1805,15 @@ def process_payment():
     booking_id     = request.form['booking_id']
     payment_method = request.form['payment_method']
 
+    holder_name = None
+    card_last4 = None
+    ref_number = None
 
     if payment_method == 'Card':
         holder_name = request.form.get('cardholder_name')
-        ref_number  = request.form.get('card_number')
+        card_number = request.form.get('card_number', '').replace(' ', '')
+        card_last4  = card_number[-4:] if len(card_number) >= 4 else None
+
 
     elif payment_method == 'E-Wallet':
         provider    = request.form.get('ewallet_provider')
@@ -1835,6 +1840,11 @@ def process_payment():
         WHERE b.booking_id=?
     """, (booking_id,)).fetchone()
 
+   if booking['payment_status'] == 'Paid':
+        conn.close()
+        flash('This booking has already been paid.', 'info')
+        return redirect(url_for('payment_history'))
+      
     if not booking:
         conn.close()
         flash('Booking not found.', 'danger')
@@ -1851,7 +1861,7 @@ def process_payment():
          card_holder_name, card_number, payment_status, booking_id)
         VALUES (?, 0, ?, ?, ?, ?, 'Paid', ?)
     """, (payment_method, payment_date, booking['total_payment'],
-          holder_name, ref_number, booking_id))
+          holder_name, card_last4, booking_id))
 
 
     conn.execute("""
@@ -3429,9 +3439,15 @@ def process_fine_payment():
     fine_id        = request.form['fine_id']
     payment_method = request.form['payment_method']
 
+    holder_name = None
+    card_last4 = None
+    ref_number = None
+   
     if payment_method == 'Card':
         holder_name = request.form.get('cardholder_name')
-        ref_number  = request.form.get('card_number')
+        card_number = request.form.get('card_number', '').replace(' ', '')
+        card_last4 = card_number[-4:] if len(card_number) >= 4 else None
+        
 
     elif payment_method == 'E-Wallet':
         provider    = request.form.get('ewallet_provider')
@@ -3468,7 +3484,7 @@ def process_fine_payment():
          card_holder_name, card_number, payment_status, fine_id)
         VALUES (?, 0, ?, ?, ?, ?, 'Paid', ?)
     """, (payment_method, payment_date, fine['amount'],
-          holder_name, ref_number, fine_id))
+          holder_name, card_last4, fine_id))
 
     conn.execute(
         "UPDATE Fine SET fine_status='paid' WHERE fine_id=?", (fine_id,)
